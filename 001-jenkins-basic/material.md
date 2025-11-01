@@ -53,7 +53,7 @@ A comprehensive guide for installing and configuring Jenkins on a VPS.
 
 - **Set Root Password**
   
-  Create a password for VPS login through the Hostinger control panel.
+  Create a password for VPS login through the control panel from provider.
 
 - **Get Access Credentials**
   
@@ -298,12 +298,15 @@ A comprehensive guide for installing and configuring Jenkins on a VPS.
   - **Description:** Add description
   - **Username:** Your GitHub username
   - **Private Key:** Select **"Enter directly"**
-  - Click **"Add"** and paste private key: <br />
+  - Click **"Add"** and paste private key: 
+  
+  <br />
   
   ```
   cat ~/.ssh/id_rsa
   ```
-  
+  <br />
+
   - Click **"Create"**
 
 - **Integrate repository with job**
@@ -540,7 +543,9 @@ A comprehensive guide for installing and configuring Jenkins on a VPS.
   - Click **"Configure"**
   - Scroll to **"Build Steps"**
   - Add **"Execute shell"** step
-  - Enter command: <br />
+  - Enter command: 
+  
+  <br />
   
   ```
   echo "Executing Job ${JOB_NAME}:${BUILD_NUMBER}"
@@ -550,7 +555,9 @@ A comprehensive guide for installing and configuring Jenkins on a VPS.
   - Click **"Build Now"**
   - View **"Console Output"**
   
-  Example output: <br />
+  Example output: 
+  
+  <br />
   
   ```
   Executing Job Study Environment Variable:5
@@ -573,7 +580,9 @@ A comprehensive guide for installing and configuring Jenkins on a VPS.
   - Go to job detail page
   - Click **"Configure"**
   - Add **"Execute shell"** build step
-  - Enter command: <br />
+  - Enter command: 
+  
+    <br />
   
     ```
     echo "Build with love by ${AUTHOR}"
