@@ -13,6 +13,11 @@ pipeline {
                 for (int i = 1; i <= 10; i++) {
                   echo("Script ${i}")
                 }
+                def data = [
+                  "role": "Web Programmer",
+                  "position": "Junior"
+                ]
+                writeJSON(file: "data.json", json: data)
               }
               sleep(5)
             }
