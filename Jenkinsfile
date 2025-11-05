@@ -8,22 +8,19 @@ pipeline {
         stage("Build") {
             steps {
               echo "Test Build 1"
-              echo "Test Build 2"
-              echo "Test Build 3"
+              sleep(5)
             }
         }
         stage("Test") {
           steps {
             echo "Test 1"
-            echo "Test 2"
-            echo "Test 3"
+            sleep(5)
           }
         }
         stage("Deploy") {
           steps {
             echo "Deploy 1"
-            echo "Deploy 2"
-            echo "Deploy 3"
+            sleep(5)
           }
         }
     }
