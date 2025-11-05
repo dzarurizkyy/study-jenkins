@@ -8,6 +8,7 @@ pipeline {
         stage("Build") {
             steps {
               echo "Test Build 1"
+              sh("cat note.txt")
               sleep(5)
             }
         }
