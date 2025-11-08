@@ -47,11 +47,13 @@ pipeline {
           }
         }
         stage("Parameter") {
-          echo "Hello ${params.NAME}!"
-          echo "You description is ${params.DESCRIPTION}!"
-          echo "Your social media is ${params.SOCIAL_MEDIA}"
-          echo "Need to deploy ${params.DEPLOY}"
-          echo "Your secret is ${params.SECRET}"
+          steps {
+            echo "Hello ${params.NAME}!"
+            echo "You description is ${params.DESCRIPTION}!"
+            echo "Your social media is ${params.SOCIAL_MEDIA}"
+            echo "Need to deploy ${params.DEPLOY}"
+            echo "Your secret is ${params.SECRET}"
+          }
         }
         stage("Build") {
             steps {
