@@ -96,6 +96,16 @@ pipeline {
             sleep(5)
           }
         }
+        stage("Release") {
+          when {
+            expression {
+              return params.DEPLOY
+            }
+          }
+          steps {
+            echo("Release it")
+          }
+        }
     }
     post {
       always {
