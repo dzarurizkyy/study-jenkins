@@ -1,5 +1,9 @@
 pipeline {
     agent none
+    options {
+      disableConcurrentBuilds()
+      timeout(time: 10, unit: "MINUTES")
+    }
     stages {
         stage("Prepare") {
           agent {
@@ -32,7 +36,6 @@ pipeline {
                 ]
                 writeJSON(file: "data.json", json: data)
               }
-              sleep(5)
             }
         }
         stage("Test") {
@@ -43,7 +46,6 @@ pipeline {
           }
           steps {
             echo "Test 1"
-            sleep(5)
           }
         }
         stage("Deploy") {
@@ -54,7 +56,6 @@ pipeline {
           }
           steps {
             echo "Deploy 1"
-            sleep(5)
           }
         }
     }
