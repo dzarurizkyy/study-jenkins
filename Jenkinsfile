@@ -15,6 +15,7 @@ pipeline {
             echo("Start Job: ${env.JOB_NAME}")
             echo("Start Build: ${env.BUILD_NUMBER}")
             echo("Branch Name: ${env.BRANCH_NAME}")
+            sleep(5)
           }
         }
         stage("Build") {
@@ -36,6 +37,7 @@ pipeline {
                 ]
                 writeJSON(file: "data.json", json: data)
               }
+              sleep(5)
             }
         }
         stage("Test") {
@@ -46,6 +48,7 @@ pipeline {
           }
           steps {
             echo "Test 1"
+            sleep(5)
           }
         }
         stage("Deploy") {
@@ -56,6 +59,7 @@ pipeline {
           }
           steps {
             echo "Deploy 1"
+            sleep(5)
           }
         }
     }
