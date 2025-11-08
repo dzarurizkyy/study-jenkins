@@ -87,9 +87,12 @@ pipeline {
             message "Can we deploy?"
             ok "Yes, of course"
             submitter "dzarurizky"
+            parameters {
+              choice(name: "TARGET_ENV", choices: ["DEV", "QA", "PROD"], description: "Which Environment?")
+            }
           }
           steps {
-            echo "Deploy 1"
+            echo "Deploy to ${TARGET_ENV}"
             sleep(5)
           }
         }
