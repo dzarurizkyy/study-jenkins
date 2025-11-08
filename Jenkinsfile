@@ -4,15 +4,26 @@ pipeline {
         label "linux && java17"
       }
     }
+
     options {
       disableConcurrentBuilds()
       timeout(time: 10, unit: "MINUTES")
     }
+
     environment {
       AUTHOR = "Dzaru Rizky Fathan Fortuna"
       EMAIL = "dzarurizkybusiness@gmail.com"
       LINKEDIN = "https://www.linkedin.com/in/dzarurizky"
     }
+
+    parameters {
+      string(name: "NAME", defaultValue: "Guest", description: "What is your name?")
+      text(name: "DESCRIPTION", defaultValue: "Guest", description: "Tell me about you?")
+      booleanParam(name: "DEPLOY", defaultValue: false, description: "Need to Deploy?")
+      choice(name: "SOCIAL_MEDIA", choices: ["Instagram", "Facebook", "Twitter"], description: "Which Social Media?")
+      password(name: "SECRET", defaultValue: "", description: "Encrypt key")
+    }
+
     stages {
         stage("Prepare") {
 
@@ -21,6 +32,10 @@ pipeline {
           }
 
           steps {
+            echo("Start Job: ${env.JOB_NAME}")
+            echo("Start Build: ${env.BUILD_NUMBER}")
+            echo("Branch Name: ${env.BRANCH_NAME}")
+
             echo("AUTHOR ${author}")
             echo("EMAIL ${email}")
             echo("LINKEDIN ${linkedin}")
@@ -28,11 +43,15 @@ pipeline {
             echo("APP USER: ${APP_USR}")
             sh('echo "APP_PASSWORD: $APP_PSW" > "rahasia.txt"')
 
-            echo("Start Job: ${env.JOB_NAME}")
-            echo("Start Build: ${env.BUILD_NUMBER}")
-            echo("Branch Name: ${env.BRANCH_NAME}")
             sleep(5)
           }
+        }
+        stage("Parameter") {
+          echo "Hello ${params.NAME}!"
+          echo "You description is ${params.DESCRIPTION}!"
+          echo "Your social media is ${params.SOCIAL_MEDIA}"
+          echo "Need to deploy ${params.DEPLOY}"
+          echo "Your secret is ${params.SECRET}"
         }
         stage("Build") {
             steps {
