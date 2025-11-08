@@ -24,6 +24,10 @@ pipeline {
       password(name: "SECRET", defaultValue: "", description: "Encrypt key")
     }
 
+    triggers {
+      cron("*/5 * * * *")
+    }
+
     stages {
         stage("Prepare") {
 
