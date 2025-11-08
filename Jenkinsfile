@@ -15,10 +15,18 @@ pipeline {
     }
     stages {
         stage("Prepare") {
+
+          environment {
+            APP = credentials("credential-test")
+          }
+
           steps {
             echo("AUTHOR ${author}")
             echo("EMAIL ${email}")
             echo("LINKEDIN ${linkedin}")
+            
+            echo("APP USER: ${APP_USR}")
+            echo("APP Password: ${APP_PSW}")
 
             echo("Start Job: ${env.JOB_NAME}")
             echo("Start Build: ${env.BUILD_NUMBER}")
