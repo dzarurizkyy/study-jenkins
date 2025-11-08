@@ -1,11 +1,12 @@
 pipeline {
-    agent {
-      node {
-        label "linux && java17"
-      }
-    }
+    agent none
     stages {
         stage("Build") {
+            agent {
+              node {
+                label "linux && java17"
+              }
+            }
             steps {
               echo "Test Build 1"
               sh("cat note.txt")
@@ -23,12 +24,22 @@ pipeline {
             }
         }
         stage("Test") {
+          agent {
+            node {
+              label "linux && java17"
+            }
+          }
           steps {
             echo "Test 1"
             sleep(5)
           }
         }
         stage("Deploy") {
+          agent {
+            node {
+              label "linux && java17"
+            }
+          }
           steps {
             echo "Deploy 1"
             sleep(5)
