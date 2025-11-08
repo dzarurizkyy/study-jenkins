@@ -1,17 +1,25 @@
 pipeline {
-    agent none
+    agent {
+      node {
+        label "linux && java17"
+      }
+    }
     options {
       disableConcurrentBuilds()
-      timeout(time: 10, unit: "SECONDS")
+      timeout(time: 10, unit: "MINUTES")
+    }
+    environment {
+      AUTHOR = "Dzaru Rizky Fathan Fortuna"
+      EMAIL = "dzarurizkybusiness@gmail.com"
+      LINKEDIN = "https://www.linkedin.com/in/dzarurizky"
     }
     stages {
         stage("Prepare") {
-          agent {
-            node {
-              label "linux && java17"
-            }
-          }
           steps {
+            echo("AUTHOR ${author}")
+            echo("EMAIL ${email}")
+            echo("LINKEDIN ${linkedin}")
+
             echo("Start Job: ${env.JOB_NAME}")
             echo("Start Build: ${env.BUILD_NUMBER}")
             echo("Branch Name: ${env.BRANCH_NAME}")
@@ -19,11 +27,6 @@ pipeline {
           }
         }
         stage("Build") {
-            agent {
-              node {
-                label "linux && java17"
-              }
-            }
             steps {
               echo "Test Build 1"
               sh("cat note.txt")
@@ -41,22 +44,12 @@ pipeline {
             }
         }
         stage("Test") {
-          agent {
-            node {
-              label "linux && java17"
-            }
-          }
           steps {
             echo "Test 1"
             sleep(5)
           }
         }
         stage("Deploy") {
-          agent {
-            node {
-              label "linux && java17"
-            }
-          }
           steps {
             echo "Deploy 1"
             sleep(5)
