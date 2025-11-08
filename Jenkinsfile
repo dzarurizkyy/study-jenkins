@@ -35,19 +35,26 @@ pipeline {
             APP = credentials("credential-test")
           }
 
-          steps {
-            echo("Start Job: ${env.JOB_NAME}")
-            echo("Start Build: ${env.BUILD_NUMBER}")
-            echo("Branch Name: ${env.BRANCH_NAME}")
 
-            echo("AUTHOR ${author}")
-            echo("EMAIL ${email}")
-            echo("LINKEDIN ${linkedin}")
-            
-            echo("APP USER: ${APP_USR}")
-            sh('echo "APP_PASSWORD: $APP_PSW" > "rahasia.txt"')
+          stages {
+            stage("Global Variable") {
+              steps {
+                echo("Start Job: ${env.JOB_NAME}")
+                echo("Start Build: ${env.BUILD_NUMBER}")
+                echo("Branch Name: ${env.BRANCH_NAME}")
+              }
+            }
 
-            sleep(5)
+            stage("Enviroment Variable") {
+              steps {
+                echo("AUTHOR ${author}")
+                echo("EMAIL ${email}")
+                echo("LINKEDIN ${linkedin}")
+
+                echo("APP USER: ${APP_USR}")
+                sh('echo "APP_PASSWORD: $APP_PSW" > "rahasia.txt"')
+              }
+            }
           }
         }
         stage("Parameter") {
