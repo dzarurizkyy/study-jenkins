@@ -26,7 +26,7 @@ pipeline {
             echo("LINKEDIN ${linkedin}")
             
             echo("APP USER: ${APP_USR}")
-            echo("APP Password: ${APP_PSW}")
+            sh("echo 'APP_PASSWORD: ${APP_PSW}' > 'rahasia.txt'")
 
             echo("Start Job: ${env.JOB_NAME}")
             echo("Start Build: ${env.BUILD_NUMBER}")
