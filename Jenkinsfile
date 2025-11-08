@@ -83,6 +83,11 @@ pipeline {
           }
         }
         stage("Deploy") {
+          input {
+            message "Can we deploy?"
+            ok "Yes, of course"
+            submitter "dzarurizky"
+          }
           steps {
             echo "Deploy 1"
             sleep(5)
