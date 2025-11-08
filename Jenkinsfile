@@ -35,8 +35,9 @@ pipeline {
             APP = credentials("credential-test")
           }
 
-
-          stages {
+          failfast true
+          
+          parallel {
             stage("Global Variable") {
               steps {
                 echo("Start Job: ${env.JOB_NAME}")
