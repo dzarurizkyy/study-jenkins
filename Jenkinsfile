@@ -33,12 +33,12 @@ pipeline {
 
           matrix {
             failfast true
-            
+
             axes {
               axis {
                 name "OS"
                 values "linux", "windows", "mac"
-              },
+              }
               axis {
                 name: "ARC"
                 values "32", "64"
