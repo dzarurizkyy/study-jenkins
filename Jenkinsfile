@@ -30,9 +30,10 @@ pipeline {
 
     stages {
         stage("OS Setup") {
-          failfast true
 
           matrix {
+            failfast true
+            
             axes {
               axis {
                 name "OS"
