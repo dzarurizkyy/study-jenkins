@@ -32,7 +32,7 @@ pipeline {
         stage("OS Setup") {
 
           matrix {
-            failfast true
+            failFast true
 
             axes {
               axis {
@@ -60,9 +60,9 @@ pipeline {
             APP = credentials("credential-test")
           }
 
-          failfast true
-          
           parallel {
+            failFast true
+
             stage("Global Variable") {
               steps {
                 echo("Start Job: ${env.JOB_NAME}")
