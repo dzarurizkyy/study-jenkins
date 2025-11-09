@@ -29,6 +29,30 @@ pipeline {
     }
 
     stages {
+        stage("OS Setup") {
+          failfast true
+
+          matrix {
+            axes {
+              axis {
+                name "OS"
+                values "linux", "windows", "mac"
+              },
+              axis {
+                name: "ARC"
+                values "32", "64"
+              }
+            }
+          }
+
+          stages {
+            stage("OS Setup") {
+              steps {
+                echo("Setup ${OS} ${ARC}")
+              }
+            }
+          }
+        }
         stage("Prepare") {
 
           environment {
