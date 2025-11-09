@@ -102,7 +102,6 @@ pipeline {
         stage("Build") {
             steps {
               echo "Test Build 1"
-              sh("cat note.txt")
               script {
                 for (int i = 1; i <= 10; i++) {
                   echo("Script ${i}")
