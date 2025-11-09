@@ -32,22 +32,20 @@ pipeline {
         stage("OS Setup") {
 
           matrix {
-            failFast true
-
             axes {
               axis {
                 name "OS"
                 values "linux", "windows", "mac"
               }
               axis {
-                name: "ARC"
-                values "32", "64"
+                name "ARC"
+                values "32", "64" 
               }
             }
           }
 
           stages {
-            stage("OS Setup") {
+            stage("Setup") {
               steps {
                 echo("Setup ${OS} ${ARC}")
               }
@@ -61,8 +59,6 @@ pipeline {
           }
 
           parallel {
-            failFast true
-
             stage("Global Variable") {
               steps {
                 echo("Start Job: ${env.JOB_NAME}")
