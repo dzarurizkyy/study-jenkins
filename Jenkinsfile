@@ -85,7 +85,7 @@ pipeline {
                 echo("LINKEDIN ${linkedin}")
 
                 echo("APP USER: ${APP_USR}")
-                sh('echo "APP_PASSWORD: $APP_PSW" > "rahasia.txt"')
+                sh('echo "APP_PASSWORD: $APP_PSW" > "secret.txt"')
               }
             }
           }
@@ -143,7 +143,12 @@ pipeline {
             }
           }
           steps {
-            echo("Release it")
+            withCredentials([usernamePassword(
+              credentialsId: "credential-test",
+              usernameVariable: "USER",
+              passwordVariable: "PASSWORD"
+            )])
+            sh('echo "Release it with -u $USER -p $PASSWORD" > "release.txt"')
           }
         }
     }
