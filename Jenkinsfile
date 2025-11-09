@@ -42,12 +42,11 @@ pipeline {
                 values "32", "64" 
               }
             }
-          }
-
-          stages {
-            stage("Setup") {
-              steps {
-                echo("Setup ${OS} ${ARC}")
+            stages {
+              stage("Setup") {
+                steps {
+                  echo("Setup ${OS} ${ARC}")
+                }
               }
             }
           }
