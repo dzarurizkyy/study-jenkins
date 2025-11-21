@@ -298,10 +298,10 @@ You can create Groovy classes in the `src/` directory for more structured code.
 
 ### Creating Groovy Classes
 
-**src/com/example/jenkins/Output.groovy**
+**src/dzarurizkyy/jenkins/Output.groovy**
 
 ```groovy
-package com.example.jenkins
+package dzarurizkyy.jenkins
 
 class Output {
   static def hello(String name) {
@@ -317,7 +317,7 @@ class Output {
 ```groovy
 @Library('jenkins-shared-library@main') _
 
-import com.example.jenkins.Output
+import dzarurizkyy.jenkins.Output
 
 pipeline {
   agent any
@@ -342,10 +342,10 @@ pipeline {
 
 To use Jenkins Pipeline steps in Groovy classes, pass the `steps` object:
 
-**src/com/example/jenkins/Output.groovy**
+**src/dzarurizkyy/jenkins/Output.groovy**
 
 ```groovy
-package com.example.jenkins
+package dzarurizkyy.jenkins
 
 class Output {
   static def hello(steps, String name) {
@@ -359,7 +359,7 @@ class Output {
 ```groovy
 @Library('jenkins-shared-library@main') _
 
-import com.example.jenkins.Output
+import dzarurizkyy.jenkins.Output
 
 pipeline {
   agent any
@@ -713,7 +713,7 @@ jenkins-shared-library/
 │       └── build.json
 ├── src/
 │   └── com/
-│       └── example/
+│       └── company/
 │           └── jenkins/
 │               └── Output.groovy
 └── vars/
