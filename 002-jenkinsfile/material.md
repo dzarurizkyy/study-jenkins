@@ -60,17 +60,17 @@ A continuous delivery pipeline consists of commands created to deliver software 
 
 Jenkins Pipeline is **not included** by default when installing Jenkins.
 
-### Install Pipeline Plugin
+- **Install Pipeline Plugin**
 
-- Go to Jenkins dashboard
-- Click **settings icon** (Manage Jenkins)
-- Select **"Plugins"**
-- Click **"Available plugins"**
-- Search for **"Pipeline"**
-- Install **Pipeline: Aggregator** plugin
-- Check **"Restart Jenkins when installation is complete and no jobs are running"**
+  - Go to Jenkins dashboard
+  - Click **settings icon** (Manage Jenkins)
+  - Select **"Plugins"**
+  - Click **"Available plugins"**
+  - Search for **"Pipeline"**
+  - Install **Pipeline: Aggregator** plugin
+  - Check **"Restart Jenkins when installation is complete and no jobs are running"**
 
-**Plugin URL:** https://plugins.jenkins.io/workflow-aggregator
+  **Plugin URL:** https://plugins.jenkins.io/workflow-aggregator
 
 ---
 
@@ -96,66 +96,66 @@ An individual instruction or command. Steps are essentially instructions on what
 
 ## 🚀 Creating Pipeline Jobs
 
-### Basic Pipeline Job
+- **Create basic pipeline job**
 
-- Go to Jenkins dashboard
-- Click **"New Item"**
-- Enter job name
-- Select **"Pipeline"** as item type
-- Click **"OK"**
-- Scroll to **"Pipeline"** section
-- Select **"Pipeline script"** in Definition dropdown
+  - Go to Jenkins dashboard
+  - Click **"New Item"**
+  - Enter job name
+  - Select **"Pipeline"** as item type
+  - Click **"OK"**
+  - Scroll to **"Pipeline"** section
+  - Select **"Pipeline script"** in Definition dropdown
 
-### Simple Pipeline Example
+- **Simple pipeline example**
 
-```groovy
-pipeline {
-  agent any
-  stages {
-    stage("Hello") {
-      steps {
-        echo "Hello World"
+  ```groovy
+  pipeline {
+    agent any
+    stages {
+      stage("Hello") {
+        steps {
+          echo "Hello World"
+        }
       }
     }
   }
-}
-```
+  ```
 
 ---
 
 ## 🔗 Pipeline with SCM
 
-### Setup Repository
+- **Setup repository**
 
-- Select your project to integrate with Jenkins
-- Add `Jenkinsfile` to project root
-- Add pipeline code to Jenkinsfile
-- Commit and push to repository:
+  - Select your project to integrate with Jenkins
+  - Add `Jenkinsfile` to project root
+  - Add pipeline code to Jenkinsfile
+  - Commit and push to repository:
 
-```bash
-git init
-git add .
-git commit -m "commit message"
-git remote add origin GITHUB_URL
-git push -u origin BRANCH_NAME
-```
+  ```bash
+  git init
+  git add .
+  git commit -m "commit message"
+  git remote add origin GITHUB_URL
+  git push -u origin BRANCH_NAME
+  ```
 
-### Create Pipeline Job from SCM
+- **Create pipeline job from SCM**
 
-- Go to Jenkins dashboard
-- Click **"New Item"**
-- Enter job name
-- Select **"Pipeline"** as item type
-- Click **"OK"**
-- Scroll to **"Pipeline"** section
-- Select **"Pipeline script from SCM"** in Definition dropdown
-- **SCM:** Select **"Git"**
-- **Repository URL:** Enter your GitHub repository URL
-- **Credentials:** Select your GitHub credentials
-- **Branch Specifier:** Enter branch name (e.g., `*/main`)
-- **Script Path:** Enter Jenkinsfile path (default: `Jenkinsfile`)
-- Click **"Save"**
-- Click **"Build Now"**
+  - Go to Jenkins dashboard
+  - Click **"New Item"**
+  - Enter job name
+  - Select **"Pipeline"** as item type
+  - Click **"OK"**
+  - Scroll to **"Pipeline"** section
+  - Select **"Pipeline script from SCM"** in Definition dropdown
+  - **SCM:** Select **"Git"**
+  - **Repository URL:** Enter your GitHub repository URL
+  - **Credentials:** Select your GitHub credentials
+  - **Branch Specifier:** Enter branch name (e.g., `*/main`)
+  - **Script Path:** Enter Jenkinsfile path (default: `Jenkinsfile`)
+  - Click **"Save"**
+  - Click **"Build Now"**
 
 ---
 
@@ -175,52 +175,52 @@ The agent section determines where the pipeline executes.
 | `dockerfile` | Like docker, but container image is built from Dockerfile |
 | `kubernetes` | Pipeline runs in Kubernetes cluster |
 
-### Basic Agent Configuration
+- **Basic agent configuration**
 
-```groovy
-pipeline {
-  agent any
-  stages {
-    stage("Build") {
-      steps {
-        echo "Building..."
+  ```groovy
+  pipeline {
+    agent any
+    stages {
+      stage("Build") {
+        steps {
+          echo "Building..."
+        }
       }
     }
   }
-}
-```
+  ```
 
-### Agent with Node Label
+- **Agent with node label**
 
-Sometimes you want to run a pipeline only on specific agents. For example, if you have Jenkins agents with Fedora or Windows operating systems, and you want the pipeline to run on those agents, you can change the agent value to the desired label or node.
+  Sometimes you want to run a pipeline only on specific agents. For example, if you have Jenkins agents with Fedora or Windows operating systems, and you want the pipeline to run on those agents, you can change the agent value to the desired label or node.
 
-```groovy
-pipeline {
-  agent {
-    node {
-      label "linux && java11"
+  ```groovy
+  pipeline {
+    agent {
+      node {
+        label "linux && java11"
+      }
     }
-  }
-  stages {
-    stage("Build") {
-      steps {
-        echo "Building on Linux with Java 11"
+    stages {
+      stage("Build") {
+        steps {
+          echo "Building on Linux with Java 11"
+        }
       }
     }
   }
-}
-```
+  ```
 
-### Adding Labels to Jenkins Agents
+- **Add labels to Jenkins agents**
 
-- Go to Jenkins dashboard
-- Select **"Build Executor Status"**
-- Click on the node you want to label
-- Click **"Configure"**
-- In **"Labels"** field, enter labels (space-separated for multiple)
-- Click **"Save"**
+  - Go to Jenkins dashboard
+  - Select **"Build Executor Status"**
+  - Click on the node you want to label
+  - Click **"Configure"**
+  - In **"Labels"** field, enter labels (space-separated for multiple)
+  - Click **"Save"**
 
-Example labels: `linux java11 docker`
+  Example labels: `linux java11 docker`
 
 ---
 
@@ -241,34 +241,34 @@ Post is a section used to add steps at the end when a pipeline condition is met.
 | `success` | Executes if pipeline status is success |
 | `cleanup` | Always executes but after all other post conditions |
 
-### Post Configuration Example
+- **Post configuration example**
 
-```groovy
-pipeline {
-  agent any
-  stages {
-    stage("Build") {
-      steps {
-        echo "Building..."
+  ```groovy
+  pipeline {
+    agent any
+    stages {
+      stage("Build") {
+        steps {
+          echo "Building..."
+        }
+      }
+    }
+    post {
+      always {
+        echo "I will always say Hello again!"
+      }
+      success {
+        echo "Yay, success"
+      }
+      failure {
+        echo "Oh no, failure"
+      }
+      cleanup {
+        echo "Don't care success or error"
       }
     }
   }
-  post {
-    always {
-      echo "I will always say Hello again!"
-    }
-    success {
-      echo "Yay, success"
-    }
-    failure {
-      echo "Oh no, failure"
-    }
-    cleanup {
-      echo "Don't care success or error"
-    }
-  }
-}
-```
+  ```
 
 ---
 
@@ -283,39 +283,39 @@ Stages is a section where there is one or more stage blocks. Stages usually cont
 - No naming restrictions - name stages as you prefer
 - Common stage names: Build, Test, Deploy
 
-### Multiple Stages Example
+- **Multiple stages example**
 
-```groovy
-pipeline {
-  agent any
-  stages {
-    stage("Build") {
-      steps {
-        echo "Build"
+  ```groovy
+  pipeline {
+    agent any
+    stages {
+      stage("Build") {
+        steps {
+          echo "Build"
+        }
       }
-    }
-    stage("Test") {
-      steps {
-        echo "Test"
+      stage("Test") {
+        steps {
+          echo "Test"
+        }
       }
-    }
-    stage("Deploy") {
-      steps {
-        echo "Deploy"
+      stage("Deploy") {
+        steps {
+          echo "Deploy"
+        }
       }
     }
   }
-}
-```
+  ```
 
-### Pipeline Stage View Plugin
+- **Install Pipeline Stage View plugin**
 
-Sometimes you want to see the build process at each stage visually.
+  Sometimes you want to see the build process at each stage visually.
 
-**Plugin URL:** https://plugins.jenkins.io/pipeline-stage-view/
+  **Plugin URL:** https://plugins.jenkins.io/pipeline-stage-view/
 
-- Install plugin from Jenkins Plugin Manager
-- View stage visualization on job page
+  - Install plugin from Jenkins Plugin Manager
+  - View stage visualization on job page
 
 ---
 
@@ -323,55 +323,55 @@ Sometimes you want to see the build process at each stage visually.
 
 Steps contain the instructions you want to execute in the pipeline.
 
-### Basic Steps Plugin
+- **Basic Steps Plugin**
 
-When installing the pipeline plugin, it automatically installs the pipeline basic steps plugin, which contains commands or instructions that can be used.
+  When installing the pipeline plugin, it automatically installs the pipeline basic steps plugin, which contains commands or instructions that can be used.
 
-**Plugin URL:** https://plugins.jenkins.io/workflow-basic-steps/
+  **Plugin URL:** https://plugins.jenkins.io/workflow-basic-steps/
 
-**Documentation:** https://www.jenkins.io/doc/pipeline/steps/workflow-basic-steps/
+  **Documentation:** https://www.jenkins.io/doc/pipeline/steps/workflow-basic-steps/
 
-### Basic Steps Example
+- **Basic steps example**
 
-```groovy
-pipeline {
-  agent any
-  stages {
-    stage("Build") {
-      steps {
-        echo("Build")
-        sleep(10)
-        echo("Finish Build")
+  ```groovy
+  pipeline {
+    agent any
+    stages {
+      stage("Build") {
+        steps {
+          echo("Build")
+          sleep(10)
+          echo("Finish Build")
+        }
       }
     }
   }
-}
-```
+  ```
 
-### Node and Process Steps
+- **Node and Process Steps**
 
-One of the most commonly used steps is node and process steps.
+  One of the most commonly used steps is node and process steps.
 
-**Plugin URL:** https://plugins.jenkins.io/workflow-durable-task-step/
+  **Plugin URL:** https://plugins.jenkins.io/workflow-durable-task-step/
 
-This plugin is typically used to run or execute terminal commands, such as shell scripts (Unix) or command scripts (Windows).
+  This plugin is typically used to run or execute terminal commands, such as shell scripts (Unix) or command scripts (Windows).
 
-**Documentation:** https://www.jenkins.io/doc/pipeline/steps/workflow-durable-task-step/#sh-shell-script
+  **Documentation:** https://www.jenkins.io/doc/pipeline/steps/workflow-durable-task-step/#sh-shell-script
 
-### Shell Script Example
+- **Shell script example**
 
-```groovy
-pipeline {
-  agent any
-  stages {
-    stage("Test") {
-      steps {
-        sh("cat note.txt")
+  ```groovy
+  pipeline {
+    agent any
+    stages {
+      stage("Test") {
+        steps {
+          sh("cat note.txt")
+        }
       }
     }
   }
-}
-```
+  ```
 
 ---
 
@@ -384,29 +384,29 @@ Sometimes you need to create a very flexible pipeline. Pipeline supports scripts
 - By default, using Groovy code inside steps will cause an error
 - You need to add a `script` tag to mark that this section contains Groovy code
 
-### Script Example
+- **Script example**
 
-```groovy
-pipeline {
-  agent any
-  stages {
-    stage("Build") {
-      steps {
-        echo("Build")
-        sleep(10)
-        
-        script {
-          for (int i = 0; i < 10; i++) {
-            echo("Script ${i}")
+  ```groovy
+  pipeline {
+    agent any
+    stages {
+      stage("Build") {
+        steps {
+          echo("Build")
+          sleep(10)
+          
+          script {
+            for (int i = 0; i < 10; i++) {
+              echo("Script ${i}")
+            }
           }
-        }
 
-        echo("Finish Build")
+          echo("Finish Build")
+        }
       }
     }
   }
-}
-```
+  ```
 
 ---
 
@@ -418,28 +418,28 @@ A plugin containing utilities that can be used to simplify pipeline creation. Ex
 
 **Documentation:** https://www.jenkins.io/doc/pipeline/steps/pipeline-utility-steps/
 
-### Utility Steps Example
+- **Utility steps example**
 
-```groovy
-pipeline {
-  agent any
-  stages {
-    stage("Test") {
-      steps {
-        sh("cat note.txt")
+  ```groovy
+  pipeline {
+    agent any
+    stages {
+      stage("Test") {
+        steps {
+          sh("cat note.txt")
 
-        script {
-          def data = [
-            "firstName": "Dzaru",
-            "lastName": "Rizky Fathan Fortuna"
-          ]
-          writeJSON(file: "data.json", json: data)
+          script {
+            def data = [
+              "firstName": "Dzaru",
+              "lastName": "Rizky Fathan Fortuna"
+            ]
+            writeJSON(file: "data.json", json: data)
+          }
         }
       }
     }
   }
-}
-```
+  ```
 
 ---
 
@@ -451,44 +451,44 @@ When using an agent, all stages will automatically run on that agent. But someti
 
 For example, the first stage needs a Java agent, the second stage needs a Golang agent, etc. In this case, you can set the agent in the pipeline to `none`, then add an agent to each stage.
 
-### Agent Per Stage Example
+- **Agent per stage example**
 
-```groovy
-pipeline {
-  agent none
-  stages {
-    stage("Build") {
-      agent {
-        node {
-          label "linux && java17"
-        }
-      }
-      steps {
-        echo("Build")
-        sleep(10)
-        
-        script {
-          for (int i = 0; i < 10; i++) {
-            echo("Script ${i}")
+  ```groovy
+  pipeline {
+    agent none
+    stages {
+      stage("Build") {
+        agent {
+          node {
+            label "linux && java17"
           }
         }
+        steps {
+          echo("Build")
+          sleep(10)
+          
+          script {
+            for (int i = 0; i < 10; i++) {
+              echo("Script ${i}")
+            }
+          }
 
-        echo("Finish Build")
-      }
-    }
-    stage("Test") {
-      agent {
-        node {
-          label "linux && golang"
+          echo("Finish Build")
         }
       }
-      steps {
-        echo("Test")
+      stage("Test") {
+        agent {
+          node {
+            label "linux && golang"
+          }
+        }
+        steps {
+          echo("Test")
+        }
       }
     }
   }
-}
-```
+  ```
 
 ---
 
@@ -496,33 +496,33 @@ pipeline {
 
 You can get global variables in Jenkins not only manually, but also using pipelines. Since pipelines use Groovy code, you can access information using global variables that are automatically accessible in Groovy.
 
-### Access Global Variables Documentation
+- **Access global variables documentation**
 
-```
-JENKINS_URL/job/JOB_NAME/pipeline-syntax/globals
-```
+  ```
+  JENKINS_URL/job/JOB_NAME/pipeline-syntax/globals
+  ```
 
-### Common Global Variables
+- **Common global variables**
 
-- **env** - Used to get global information from Jenkins
-- **currentBuild** - Used to get information about the currently running build job
+  - **env** - Used to get global information from Jenkins
+  - **currentBuild** - Used to get information about the currently running build job
 
-### Global Variable Example
+- **Global variable example**
 
-```groovy
-pipeline {
-  agent any
-  stages {
-    stage("Info") {
-      steps {
-        echo("Job Name: ${env.JOB_NAME}")
-        echo("Build Number: ${env.BUILD_NUMBER}")
-        echo("Build Status: ${currentBuild.currentResult}")
+  ```groovy
+  pipeline {
+    agent any
+    stages {
+      stage("Info") {
+        steps {
+          echo("Job Name: ${env.JOB_NAME}")
+          echo("Build Number: ${env.BUILD_NUMBER}")
+          echo("Build Status: ${currentBuild.currentResult}")
+        }
       }
     }
   }
-}
-```
+  ```
 
 ---
 
@@ -535,36 +535,36 @@ Pipelines also support adding environment variables.
 - If an environment variable is added to the pipeline, all stages can access its value
 - If an environment variable is added to a stage, it can only be accessed within that stage
 
-### Environment Variable Example
+- **Environment variable example**
 
-```groovy
-pipeline {
-  agent any
-  environment {
-    AUTHOR = "Dzaru Rizky"
-    EMAIL = "dzaru@example.com"
-  }
-  stages {
-    stage("Build") {
-      environment {
-        APP = "My Application"
+  ```groovy
+  pipeline {
+    agent any
+    environment {
+      AUTHOR = "Dzaru Rizky"
+      EMAIL = "dzaru@example.com"
+    }
+    stages {
+      stage("Build") {
+        environment {
+          APP = "My Application"
+        }
+        steps {
+          echo("Author: ${AUTHOR}")
+          echo("Email: ${EMAIL}")
+          echo("App: ${APP}")
+        }
       }
-      steps {
-        echo("Author: ${AUTHOR}")
-        echo("Email: ${EMAIL}")
-        echo("App: ${APP}")
+      stage("Test") {
+        steps {
+          echo("Author: ${AUTHOR}")
+          echo("Email: ${EMAIL}")
+          // APP variable not accessible here
+        }
       }
     }
-    stage("Test") {
-      steps {
-        echo("Author: ${AUTHOR}")
-        echo("Email: ${EMAIL}")
-        // APP variable not accessible here
-      }
-    }
   }
-}
-```
+  ```
 
 ---
 
@@ -581,24 +581,24 @@ In the environment section, there's a special command called `credentials()` tha
 | **Username and password** | Environment variable contains `username:password`, and automatically creates `VARNAME_USR` and `VARNAME_PSW` variables |
 | **SSH with private key** | Environment variable contains the location of a temporary SSH file. Also automatically creates `VARNAME_USR` and `VARNAME_PSW` (containing SSH passphrase) |
 
-### Credentials Example
+- **Credentials example**
 
-```groovy
-pipeline {
-  agent any
-  environment {
-    APP = credentials("credential-test")
-  }
-  stages {
-    stage("Build") {
-      steps {
-        echo("App User: ${APP_USR}")
-        sh('echo "App Password: $APP_PSW" > "secret.txt"')
+  ```groovy
+  pipeline {
+    agent any
+    environment {
+      APP = credentials("credential-test")
+    }
+    stages {
+      stage("Build") {
+        steps {
+          echo("App User: ${APP_USR}")
+          sh('echo "App Password: $APP_PSW" > "secret.txt"')
+        }
       }
     }
   }
-}
-```
+  ```
 
 ### Sensitive Information Handling
 
@@ -631,24 +631,24 @@ Pipeline has an options command used for pipeline settings. Options can be at th
 - `retry(3)` - Retries the stage on failure
 - `timestamps()` - Adds timestamps to console output
 
-### Options Example
+- **Options example**
 
-```groovy
-pipeline {
-  agent any
-  options {
-    disableConcurrentBuilds()
-    timeout(time: 10, unit: 'MINUTES')
-  }
-  stages {
-    stage("Build") {
-      steps {
-        echo "Building..."
+  ```groovy
+  pipeline {
+    agent any
+    options {
+      disableConcurrentBuilds()
+      timeout(time: 10, unit: 'MINUTES')
+    }
+    stages {
+      stage("Build") {
+        steps {
+          echo "Building..."
+        }
       }
     }
   }
-}
-```
+  ```
 
 ---
 
@@ -666,30 +666,30 @@ In pipelines, you can also add parameters using the `parameters` command. Parame
 | `choice` | String/text parameter with predefined options |
 | `password` | String parameter considered sensitive |
 
-### Parameters Example
+- **Parameters example**
 
-```groovy
-pipeline {
-  agent any
-  parameters {
-    string(name: "NAME", defaultValue: "Guest", description: "What is your name?")
-    text(name: "DESCRIPTION", defaultValue: "", description: "Tell me about you?")
-    booleanParam(name: "DEPLOY", defaultValue: false, description: "Need to deploy?")
-    choice(name: "SOCIAL_MEDIA", choices: ["Instagram", "Facebook", "Twitter"], description: "Which Social Media?")
-    password(name: "SECRET", defaultValue: "", description: "Encrypt Key")
-  }
-  stages {
-    stage("Build") {
-      steps {
-        echo("Hello ${params.NAME}")
-        echo("Description: ${params.DESCRIPTION}")
-        echo("Deploy: ${params.DEPLOY}")
-        echo("Social Media: ${params.SOCIAL_MEDIA}")
+  ```groovy
+  pipeline {
+    agent any
+    parameters {
+      string(name: "NAME", defaultValue: "Guest", description: "What is your name?")
+      text(name: "DESCRIPTION", defaultValue: "", description: "Tell me about you?")
+      booleanParam(name: "DEPLOY", defaultValue: false, description: "Need to deploy?")
+      choice(name: "SOCIAL_MEDIA", choices: ["Instagram", "Facebook", "Twitter"], description: "Which Social Media?")
+      password(name: "SECRET", defaultValue: "", description: "Encrypt Key")
+    }
+    stages {
+      stage("Build") {
+        steps {
+          echo("Hello ${params.NAME}")
+          echo("Description: ${params.DESCRIPTION}")
+          echo("Deploy: ${params.DEPLOY}")
+          echo("Social Media: ${params.SOCIAL_MEDIA}")
+        }
       }
     }
   }
-}
-```
+  ```
 
 ---
 
@@ -705,24 +705,24 @@ A command used to run jobs automatically.
 | `pollSCM` | Uses cron expression to automatically check for SCM changes. If changes occur, job runs automatically |
 | `upstream` | Runs job after another job completes with a specific result |
 
-### Trigger Example
+- **Trigger example**
 
-```groovy
-pipeline {
-  agent any
-  triggers {
-    pollSCM("* * * * *")
-    // cron("0 0 * * *")
-  }
-  stages {
-    stage("Build") {
-      steps {
-        echo "Building..."
+  ```groovy
+  pipeline {
+    agent any
+    triggers {
+      pollSCM("* * * * *")
+      // cron("0 0 * * *")
+    }
+    stages {
+      stage("Build") {
+        steps {
+          echo "Building..."
+        }
       }
     }
   }
-}
-```
+  ```
 
 ---
 
@@ -740,28 +740,28 @@ Input is similar to parameters. Input is a command added to a stage. When input 
 | `submitter` | Users allowed to input (comma-separated for multiple) |
 | `parameters` | Parameters that need to be input by user |
 
-### Input Example
+- **Input example**
 
-```groovy
-pipeline {
-  agent any
-  stages {
-    stage("Deploy") {
-      input {
-        message "Can we deploy?"
-        ok "Yes, of course"
-        submitter "dzarurizky"
-        parameters {
-          choice(name: "TARGET_ENV", choices: ["DEV", "QA", "PROD"], description: "Which Environment?")
+  ```groovy
+  pipeline {
+    agent any
+    stages {
+      stage("Deploy") {
+        input {
+          message "Can we deploy?"
+          ok "Yes, of course"
+          submitter "dzarurizky"
+          parameters {
+            choice(name: "TARGET_ENV", choices: ["DEV", "QA", "PROD"], description: "Which Environment?")
+          }
         }
-      }
-      steps {
-        echo("Deploy to ${TARGET_ENV}")
+        steps {
+          echo("Deploy to ${TARGET_ENV}")
+        }
       }
     }
   }
-}
-```
+  ```
 
 ---
 
@@ -778,33 +778,33 @@ A command used to determine under what conditions a stage is executed.
 - `environment` - Execute when environment variable matches value
 - `equals` - Execute when values are equal
 
-### When Example
+- **When example**
 
-```groovy
-pipeline {
-  agent any
-  parameters {
-    booleanParam(name: "DEPLOY", defaultValue: false, description: "Deploy?")
-  }
-  stages {
-    stage("Build") {
-      steps {
-        echo "Building..."
-      }
+  ```groovy
+  pipeline {
+    agent any
+    parameters {
+      booleanParam(name: "DEPLOY", defaultValue: false, description: "Deploy?")
     }
-    stage("Release") {
-      when {
-        expression {
-          return params.DEPLOY
+    stages {
+      stage("Build") {
+        steps {
+          echo "Building..."
         }
       }
-      steps {
-        echo "Release it"
+      stage("Release") {
+        when {
+          expression {
+            return params.DEPLOY
+          }
+        }
+        steps {
+          echo "Release it"
+        }
       }
     }
   }
-}
-```
+  ```
 
 ---
 
@@ -817,37 +817,37 @@ Stages can have stages within them. Stages inside execute sequentially by defaul
 - Stages can only have one command: `steps`, `stages`, `parallel`, or `matrix`
 - If you add stages again, you can't combine it with steps
 
-### Sequential Stages Example
+- **Sequential stages example**
 
-```groovy
-pipeline {
-  agent none
-  stages {
-    stage("Prepare") {
-      agent {
-        node {
-          label "linux && java17"
-        }
-      }
-      stages {
-        stage("Global Variable") {
-          steps {
-            echo("Author: ${env.AUTHOR}")
-            echo("Email: ${env.EMAIL}")
+  ```groovy
+  pipeline {
+    agent none
+    stages {
+      stage("Prepare") {
+        agent {
+          node {
+            label "linux && java17"
           }
         }
-        stage("Environment Variable") {
-          steps {
-            echo("Start Job: ${env.JOB_NAME}")
-            echo("Start Build: ${env.BUILD_NUMBER}")
-            echo("Branch Name: ${env.BRANCH_NAME}")
+        stages {
+          stage("Global Variable") {
+            steps {
+              echo("Author: ${env.AUTHOR}")
+              echo("Email: ${env.EMAIL}")
+            }
+          }
+          stage("Environment Variable") {
+            steps {
+              echo("Start Job: ${env.JOB_NAME}")
+              echo("Start Build: ${env.BUILD_NUMBER}")
+              echo("Branch Name: ${env.BRANCH_NAME}")
+            }
           }
         }
       }
     }
   }
-}
-```
+  ```
 
 ---
 
@@ -861,45 +861,45 @@ In certain cases, you want stages to run in parallel.
 - To automatically stop all stage processes when one stage has an error, add `parallelAlwaysFailFast()` to options
 - When using parallel, you can't add an agent to the parent stage, so you need to specify it in each parallel stage
 
-### Parallel Example
+- **Parallel example**
 
-```groovy
-pipeline {
-  agent none
-  options {
-    parallelAlwaysFailFast()
-  }
-  stages {
-    stage("Prepare") {
-      parallel {
-        stage("Global Variable") {
-          agent {
-            node {
-              label "linux && java17"
+  ```groovy
+  pipeline {
+    agent none
+    options {
+      parallelAlwaysFailFast()
+    }
+    stages {
+      stage("Prepare") {
+        parallel {
+          stage("Global Variable") {
+            agent {
+              node {
+                label "linux && java17"
+              }
+            }
+            steps {
+              echo("Author: ${env.AUTHOR}")
+              echo("Email: ${env.EMAIL}")
             }
           }
-          steps {
-            echo("Author: ${env.AUTHOR}")
-            echo("Email: ${env.EMAIL}")
-          }
-        }
-        stage("Environment Variable") {
-          agent {
-            node {
-              label "linux && java17"
+          stage("Environment Variable") {
+            agent {
+              node {
+                label "linux && java17"
+              }
             }
-          }
-          steps {
-            echo("Start Job: ${env.JOB_NAME}")
-            echo("Start Build: ${env.BUILD_NUMBER}")
-            echo("Branch Name: ${env.BRANCH_NAME}")
+            steps {
+              echo("Start Job: ${env.JOB_NAME}")
+              echo("Start Build: ${env.BUILD_NUMBER}")
+              echo("Branch Name: ${env.BRANCH_NAME}")
+            }
           }
         }
       }
     }
   }
-}
-```
+  ```
 
 ---
 
@@ -923,91 +923,91 @@ For example, with two axes (OS and ARC), you'll get several combinations:
 
 You can automatically retrieve axis data from environment variables in the stage.
 
-### Matrix Example
+- **Matrix example**
 
-```groovy
-pipeline {
-  agent none
-  stages {
-    stage("Matrix") {
-      matrix {
-        axes {
-          axis {
-            name "OS"
-            values "linux", "windows", "mac"
-          }
-          axis {
-            name "ARC"
-            values "32", "64"
-          }
-        }
-        stages {
-          stage("OS Setup") {
-            agent {
-              node {
-                label "linux && java17"
-              }
-            }
-            steps {
-              echo("Setup ${OS} ${ARC}")
-            }
-          }
-        }
-      }
-    }
-  }
-}
-```
-
-### Exclude Matrix Cell
-
-Matrix also has an `exclude` command if you want to exclude certain cells. For example, you want to exclude mac 32 because there's no longer a mac 32 version.
-
-```groovy
-pipeline {
-  agent none
-  stages {
-    stage("Matrix") {
-      matrix {
-        axes {
-          axis {
-            name "OS"
-            values "linux", "windows", "mac"
-          }
-          axis {
-            name "ARC"
-            values "32", "64"
-          }
-        }
-        excludes {
-          exclude {
+  ```groovy
+  pipeline {
+    agent none
+    stages {
+      stage("Matrix") {
+        matrix {
+          axes {
             axis {
               name "OS"
-              values "mac"
+              values "linux", "windows", "mac"
             }
             axis {
               name "ARC"
-              values "32"
+              values "32", "64"
             }
           }
-        }
-        stages {
-          stage("OS Setup") {
-            agent {
-              node {
-                label "linux && java17"
+          stages {
+            stage("OS Setup") {
+              agent {
+                node {
+                  label "linux && java17"
+                }
               }
-            }
-            steps {
-              echo("Setup ${OS} ${ARC}")
+              steps {
+                echo("Setup ${OS} ${ARC}")
+              }
             }
           }
         }
       }
     }
   }
-}
-```
+  ```
+
+- **Exclude matrix cell**
+
+  Matrix also has an `exclude` command if you want to exclude certain cells. For example, you want to exclude mac 32 because there's no longer a mac 32 version.
+
+  ```groovy
+  pipeline {
+    agent none
+    stages {
+      stage("Matrix") {
+        matrix {
+          axes {
+            axis {
+              name "OS"
+              values "linux", "windows", "mac"
+            }
+            axis {
+              name "ARC"
+              values "32", "64"
+            }
+          }
+          excludes {
+            exclude {
+              axis {
+                name "OS"
+                values "mac"
+              }
+              axis {
+                name "ARC"
+                values "32"
+              }
+            }
+          }
+          stages {
+            stage("OS Setup") {
+              agent {
+                node {
+                  label "linux && java17"
+                }
+              }
+              steps {
+                echo("Setup ${OS} ${ARC}")
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+  ```
 
 ---
 
@@ -1021,35 +1021,35 @@ You can use the Credentials Binding plugin.
 
 **Documentation:** https://www.jenkins.io/doc/pipeline/steps/credentials-binding/
 
-### Credential Binding Example
+- **Credential binding example**
 
-```groovy
-pipeline {
-  agent any
-  stages {
-    stage("Deploy") {
-      input {
-        message "Can we deploy?"
-        ok "Yes, of course"
-        submitter "dzarurizky"
-        parameters {
-          choice(name: "TARGET_ENV", choices: ["DEV", "QA", "PROD"], description: "Which Environment?")
+  ```groovy
+  pipeline {
+    agent any
+    stages {
+      stage("Deploy") {
+        input {
+          message "Can we deploy?"
+          ok "Yes, of course"
+          submitter "dzarurizky"
+          parameters {
+            choice(name: "TARGET_ENV", choices: ["DEV", "QA", "PROD"], description: "Which Environment?")
+          }
         }
-      }
-      steps {
-        withCredentials([usernamePassword(
-          credentialsId: "credential-test",
-          usernameVariable: "USER",
-          passwordVariable: "PASSWORD"
-        )]) {
-          echo("Deploy to ${TARGET_ENV}")
-          sh('echo "Release it with -u $USER -p $PASSWORD" > "release.txt"')
+        steps {
+          withCredentials([usernamePassword(
+            credentialsId: "credential-test",
+            usernameVariable: "USER",
+            passwordVariable: "PASSWORD"
+          )]) {
+            echo("Deploy to ${TARGET_ENV}")
+            sh('echo "Release it with -u $USER -p $PASSWORD" > "release.txt"')
+          }
         }
       }
     }
   }
-}
-```
+  ```
 
 ---
 
@@ -1065,34 +1065,36 @@ Jenkins Pipeline has a multi-branch pipeline feature that can automatically dete
 - If a branch is deleted, no need to delete the job manually
 - Multi-branch pipeline can only create pipelines from Jenkinsfile, not directly in the job
 
-### Creating Multi-Branch Pipeline
+- **Create multi-branch pipeline**
 
-- Go to Jenkins dashboard
-- Click **"New Item"**
-- Enter item name
-- Select **"Multi-branch Pipeline"** type
-- Click **"OK"**
+  - Go to Jenkins dashboard
+  - Click **"New Item"**
+  - Enter item name
+  - Select **"Multi-branch Pipeline"** type
+  - Click **"OK"**
 
-### Configuration
+- **Configure branch sources**
 
-**Branch Sources:**
-- Click **"Add source"**
-- Select **"Git"**
-- **Repository URL:** Enter GitHub repository URL
-- **Credentials:** Select GitHub credentials
+  - Click **"Add source"**
+  - Select **"Git"**
+  - **Repository URL:** Enter GitHub repository URL
+  - **Credentials:** Select GitHub credentials
 
-**Build Configuration:**
-- **Mode:** Select **"by Jenkinsfile"**
-- **Script path:** Enter `Jenkinsfile`
+- **Configure build configuration**
 
-**Scan Multi-branch Pipeline Triggers:**
-- Set desired interval for branch scanning
+  - **Mode:** Select **"by Jenkinsfile"**
+  - **Script path:** Enter `Jenkinsfile`
 
-**Save and Scan:**
-- Click **"Save"**
-- Jenkins will automatically scan all branches in the GitHub repository
-- System will automatically add new jobs when new branches are created
-- Jobs will be automatically deleted when branches are deleted, according to the specified interval
+- **Configure scan triggers**
+
+  - Set desired interval for branch scanning under **"Scan Multi-branch Pipeline Triggers"**
+
+- **Save and scan**
+
+  - Click **"Save"**
+  - Jenkins will automatically scan all branches in the GitHub repository
+  - System will automatically add new jobs when new branches are created
+  - Jobs will be automatically deleted when branches are deleted, according to the specified interval
 
 ---
 
@@ -1130,30 +1132,30 @@ Jenkins Pipeline has a multi-branch pipeline feature that can automatically dete
 
 ## 🆘 Troubleshooting
 
-### Pipeline Doesn't Start
+- **Pipeline doesn't start**
 
-- Check agent availability
-- Verify agent labels match
-- Check Jenkins executor capacity
+  - Check agent availability
+  - Verify agent labels match
+  - Check Jenkins executor capacity
 
-### Credentials Not Working
+- **Credentials not working**
 
-- Verify credential ID is correct
-- Check credential type matches usage
-- Ensure proper quoting for sensitive data
+  - Verify credential ID is correct
+  - Check credential type matches usage
+  - Ensure proper quoting for sensitive data
 
-### Stage Hangs
+- **Stage hangs**
 
-- Check for missing input approval
-- Verify timeout settings
-- Check for infinite loops in scripts
+  - Check for missing input approval
+  - Verify timeout settings
+  - Check for infinite loops in scripts
 
-### SCM Polling Not Working
+- **SCM polling not working**
 
-- Verify repository URL is accessible
-- Check credentials are valid
-- Ensure branch specifier is correct
-- Check SCM polling schedule syntax
+  - Verify repository URL is accessible
+  - Check credentials are valid
+  - Ensure branch specifier is correct
+  - Check SCM polling schedule syntax
 
 ---
 
