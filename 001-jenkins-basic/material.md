@@ -299,14 +299,11 @@ A comprehensive guide for installing and configuring Jenkins on a VPS.
   - **Username:** Your GitHub username
   - **Private Key:** Select **"Enter directly"**
   - Click **"Add"** and paste private key: 
-  
-  <br />
-  
-  ```
-  cat ~/.ssh/id_rsa
-  ```
-  <br />
-
+    
+    ```
+    cat ~/.ssh/id_rsa
+    ```
+    
   - Click **"Create"**
 
 - **Integrate repository with job**
@@ -525,7 +522,6 @@ A comprehensive guide for installing and configuring Jenkins on a VPS.
   ```
   http://JENKINS_URL/env-vars.html/
   ```
-  
   Example: `http://192.168.1.100:8080/env-vars.html/`
 
 - **Use Jenkins environment variables**
@@ -543,22 +539,17 @@ A comprehensive guide for installing and configuring Jenkins on a VPS.
   - Click **"Configure"**
   - Scroll to **"Build Steps"**
   - Add **"Execute shell"** step
-  - Enter command: 
-  
-  <br />
-  
-  ```
-  echo "Executing Job ${JOB_NAME}:${BUILD_NUMBER}"
-  ```
+  - Enter command:
+    ```
+    echo "Executing Job ${JOB_NAME}:${BUILD_NUMBER}"
+    ```
   
   - Click **"Save"**
   - Click **"Build Now"**
   - View **"Console Output"**
   
-  Example output: 
-  
-  <br />
-  
+  Example output:
+
   ```
   Executing Job Study Environment Variable:5
   ```
@@ -581,9 +572,6 @@ A comprehensive guide for installing and configuring Jenkins on a VPS.
   - Click **"Configure"**
   - Add **"Execute shell"** build step
   - Enter command: 
-  
-    <br />
-  
     ```
     echo "Build with love by ${AUTHOR}"
     ```
@@ -612,13 +600,13 @@ A comprehensive guide for installing and configuring Jenkins on a VPS.
   - **Name:** Enter parameter name (e.g., `ENVIRONMENT`)
   - **Choices:** Enter options (one per line)
   
-  Example choices:
-  
-  ```
-  development
-  staging
-  production
-  ```
+    Example choices:
+    
+    ```
+    development
+    staging
+    production
+    ```
   
   - **Description:** Add parameter description (optional)
 
@@ -628,12 +616,12 @@ A comprehensive guide for installing and configuring Jenkins on a VPS.
   - Add or modify **"Execute shell"** step
   - Reference parameter: `${PARAMETER_NAME}`
   
-  Example:
-  
-  ```
-  echo "Deploying to ${ENVIRONMENT}"
-  ./deploy.sh ${ENVIRONMENT}
-  ```
+    Example:
+    
+    ```
+    echo "Deploying to ${ENVIRONMENT}"
+    ./deploy.sh ${ENVIRONMENT}
+    ```
   
   - Click **"Save"**
 
