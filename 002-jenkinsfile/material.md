@@ -42,13 +42,6 @@ A comprehensive guide for implementing Continuous Delivery pipelines in Jenkins 
 
 A continuous delivery pipeline consists of commands created to deliver software to users, from version control through deployment.
 
-### Key Features
-
-- **Code as Configuration** - Pipeline is defined as code using Groovy DSL
-- **Version Control** - Pipeline configuration can be stored with your project
-- **Easy to Review** - Changes to pipeline can be reviewed and tracked
-- **Persistent** - No data loss during Jenkins restart or failures
-
 ### Why Use Pipeline?
 
 - Since pipelines are created using code, it's easy to modify or review pipeline stages
@@ -60,37 +53,33 @@ A continuous delivery pipeline consists of commands created to deliver software 
 
 Jenkins Pipeline is **not included** by default when installing Jenkins.
 
-- **Install Pipeline Plugin**
-
-  - Go to Jenkins dashboard
-  - Click **settings icon** (Manage Jenkins)
-  - Select **"Plugins"**
-  - Click **"Available plugins"**
-  - Search for **"Pipeline"**
-  - Install **Pipeline: Aggregator** plugin
-  - Check **"Restart Jenkins when installation is complete and no jobs are running"**
-
-  **Plugin URL:** https://plugins.jenkins.io/workflow-aggregator
+- Go to Jenkins dashboard
+- Click **settings icon** (Manage Jenkins)
+- Select **"Plugins"**
+- Click **"Available plugins"**
+- Search for **"Pipeline"**
+- Install **Pipeline: Aggregator** plugin
+- Check **"Restart Jenkins when installation is complete and no jobs are running"**
 
 ---
 
 ## 🧩 Core Concepts
 
-### Pipeline
-
-The complete definition of your continuous delivery code. A pipeline contains all code instructions for the continuous delivery process, such as compile, testing, deploy, etc.
-
-### Agent
-
-A machine or server that is part of Jenkins infrastructure used to execute the pipeline.
-
-### Stage
-
-A block that defines a task or phase in the pipeline (e.g., "Build", "Test", "Deploy"). Stages are typically displayed in Jenkins as progress indicators. Usually, a pipeline contains many stages.
-
-### Step
-
-An individual instruction or command. Steps are essentially instructions on what Jenkins should do. Steps are performed within stages.
+  - **Pipeline**
+    
+    The complete definition of your continuous delivery code. A pipeline contains all code instructions for the continuous delivery process, such as compile, testing, deploy, etc.
+  
+  - **Agent**
+    
+    A machine or server that is part of Jenkins infrastructure used to execute the pipeline.
+  
+  - **Stage**
+    
+    A block that defines a task or phase in the pipeline (e.g., "Build", "Test", "Deploy"). Stages are typically displayed in Jenkins as progress indicators. Usually, a pipeline contains many stages.
+  
+  - **Step**
+    
+    An individual instruction or command. Steps are essentially instructions on what Jenkins should do. Steps are performed within stages.
 
 ---
 
@@ -132,13 +121,13 @@ An individual instruction or command. Steps are essentially instructions on what
   - Add pipeline code to Jenkinsfile
   - Commit and push to repository:
 
-  ```bash
-  git init
-  git add .
-  git commit -m "commit message"
-  git remote add origin GITHUB_URL
-  git push -u origin BRANCH_NAME
-  ```
+    ```bash
+    git init
+    git add .
+    git commit -m "commit message"
+    git remote add origin GITHUB_URL
+    git push -u origin BRANCH_NAME
+    ```
 
 - **Create pipeline job from SCM**
 
@@ -163,17 +152,17 @@ An individual instruction or command. Steps are essentially instructions on what
 
 The agent section determines where the pipeline executes.
 
-### Agent Types
+- **Agent Types**
 
-| Type | Description |
-|------|-------------|
-| `any` | Pipeline will be executed on any agent, including master |
-| `none` | Pipeline will not be executed on any agent, meaning it runs on master |
-| `label` | Pipeline will only run on agents with specified labels |
-| `node` | Similar to label, but allows custom workspace location |
-| `docker` | Pipeline runs in a Docker container |
-| `dockerfile` | Like docker, but container image is built from Dockerfile |
-| `kubernetes` | Pipeline runs in Kubernetes cluster |
+  | Type | Description |
+  |------|-------------|
+  | `any` | Pipeline will be executed on any agent, including master |
+  | `none` | Pipeline will not be executed on any agent, meaning it runs on master |
+  | `label` | Pipeline will only run on agents with specified labels |
+  | `node` | Similar to label, but allows custom workspace location |
+  | `docker` | Pipeline runs in a Docker container |
+  | `dockerfile` | Like docker, but container image is built from Dockerfile |
+  | `kubernetes` | Pipeline runs in Kubernetes cluster |
 
 - **Basic agent configuration**
 
@@ -228,18 +217,18 @@ The agent section determines where the pipeline executes.
 
 Post is a section used to add steps at the end when a pipeline condition is met. For example, after the pipeline is complete, you want to send a message to Slack or email. Or if an error occurs in the pipeline, you want to send a notification to Slack.
 
-### Available Post Conditions
+- **Available Post Conditions**
 
-| Condition | Description |
-|-----------|-------------|
-| `always` | Always executes regardless of any condition |
-| `changed` | Executes if pipeline status changed from previous build |
-| `fixed` | Executes if pipeline status changed from previous error to success |
-| `regression` | Executes if pipeline status changed from previous success to failure |
-| `aborted` | Executes if pipeline was manually aborted |
-| `failure` | Executes if pipeline status is error |
-| `success` | Executes if pipeline status is success |
-| `cleanup` | Always executes but after all other post conditions |
+  | Condition | Description |
+  |-----------|-------------|
+  | `always` | Always executes regardless of any condition |
+  | `changed` | Executes if pipeline status changed from previous build |
+  | `fixed` | Executes if pipeline status changed from previous error to success |
+  | `regression` | Executes if pipeline status changed from previous success to failure |
+  | `aborted` | Executes if pipeline was manually aborted |
+  | `failure` | Executes if pipeline status is error |
+  | `success` | Executes if pipeline status is success |
+  | `cleanup` | Always executes but after all other post conditions |
 
 - **Post configuration example**
 
@@ -276,14 +265,13 @@ Post is a section used to add steps at the end when a pipeline condition is met.
 
 Stages is a section where there is one or more stage blocks. Stages usually contain details of the phases in the continuous delivery pipeline.
 
-### Key Points
+- **Key Points**
+  - Stages execute **sequentially** in order
+  - If a stage has an error, subsequent stages won't execute
+  - No naming restrictions - name stages as you prefer
+  - Common stage names: Build, Test, Deploy
 
-- Stages execute **sequentially** in order
-- If a stage has an error, subsequent stages won't execute
-- No naming restrictions - name stages as you prefer
-- Common stage names: Build, Test, Deploy
-
-- **Multiple stages example**
+- **Multiple Stages Example**
 
   ```groovy
   pipeline {
@@ -327,51 +315,45 @@ Steps contain the instructions you want to execute in the pipeline.
 
   When installing the pipeline plugin, it automatically installs the pipeline basic steps plugin, which contains commands or instructions that can be used.
 
-  **Plugin URL:** https://plugins.jenkins.io/workflow-basic-steps/
+  - **Documentation:** https://www.jenkins.io/doc/pipeline/steps/workflow-basic-steps/
 
-  **Documentation:** https://www.jenkins.io/doc/pipeline/steps/workflow-basic-steps/
-
-- **Basic steps example**
-
-  ```groovy
-  pipeline {
-    agent any
-    stages {
-      stage("Build") {
-        steps {
-          echo("Build")
-          sleep(10)
-          echo("Finish Build")
+  - **Basic Steps Example**
+  
+    ```groovy
+    pipeline {
+      agent any
+      stages {
+        stage("Build") {
+          steps {
+            echo("Build")
+            sleep(10)
+            echo("Finish Build")
+          }
         }
       }
     }
-  }
-  ```
+    ```
 
 - **Node and Process Steps**
 
-  One of the most commonly used steps is node and process steps.
+  One of the most commonly used steps is node and process steps. This plugin is typically used to run or execute terminal commands, such as shell scripts (Unix) or command scripts (Windows).
 
-  **Plugin URL:** https://plugins.jenkins.io/workflow-durable-task-step/
+  - **Documentation:** https://www.jenkins.io/doc/pipeline/steps/workflow-durable-task-step/#sh-shell-script
 
-  This plugin is typically used to run or execute terminal commands, such as shell scripts (Unix) or command scripts (Windows).
-
-  **Documentation:** https://www.jenkins.io/doc/pipeline/steps/workflow-durable-task-step/#sh-shell-script
-
-- **Shell script example**
-
-  ```groovy
-  pipeline {
-    agent any
-    stages {
-      stage("Test") {
-        steps {
-          sh("cat note.txt")
+  - **Shell Script Example**
+  
+    ```groovy
+    pipeline {
+      agent any
+      stages {
+        stage("Test") {
+          steps {
+            sh("cat note.txt")
+          }
         }
       }
     }
-  }
-  ```
+    ```
 
 ---
 
@@ -379,34 +361,34 @@ Steps contain the instructions you want to execute in the pipeline.
 
 Sometimes you need to create a very flexible pipeline. Pipeline supports scripts where you can insert Groovy code into the pipeline.
 
-### Important Notes
+- **Important Notes**
 
-- By default, using Groovy code inside steps will cause an error
-- You need to add a `script` tag to mark that this section contains Groovy code
+  - By default, using Groovy code inside steps will cause an error
+  - You need to add a `script` tag to mark that this section contains Groovy code
 
-- **Script example**
+- **Script Example**
 
-  ```groovy
-  pipeline {
-    agent any
-    stages {
-      stage("Build") {
-        steps {
-          echo("Build")
-          sleep(10)
-          
-          script {
-            for (int i = 0; i < 10; i++) {
-              echo("Script ${i}")
+    ```groovy
+    pipeline {
+      agent any
+      stages {
+        stage("Build") {
+          steps {
+            echo("Build")
+            sleep(10)
+            
+            script {
+              for (int i = 0; i < 10; i++) {
+                echo("Script ${i}")
+              }
             }
+  
+            echo("Finish Build")
           }
-
-          echo("Finish Build")
         }
       }
     }
-  }
-  ```
+    ```
 
 ---
 
@@ -414,11 +396,9 @@ Sometimes you need to create a very flexible pipeline. Pipeline supports scripts
 
 A plugin containing utilities that can be used to simplify pipeline creation. Examples include reading files, creating archive files, creating hashes, etc.
 
-**Plugin URL:** https://plugins.jenkins.io/pipeline-utility-steps
+- **Documentation:** https://www.jenkins.io/doc/pipeline/steps/pipeline-utility-steps/
 
-**Documentation:** https://www.jenkins.io/doc/pipeline/steps/pipeline-utility-steps/
-
-- **Utility steps example**
+- **Utility Steps Example**
 
   ```groovy
   pipeline {
@@ -447,11 +427,11 @@ A plugin containing utilities that can be used to simplify pipeline creation. Ex
 
 When using an agent, all stages will automatically run on that agent. But sometimes you want to run stages on different agents.
 
-### Use Case
+- **Use Case**
 
-For example, the first stage needs a Java agent, the second stage needs a Golang agent, etc. In this case, you can set the agent in the pipeline to `none`, then add an agent to each stage.
+  For example, the first stage needs a Java agent, the second stage needs a Golang agent, etc. In this case, you can set the agent in the pipeline to `none`, then add an agent to each stage.
 
-- **Agent per stage example**
+- **Agent per Stage Example**
 
   ```groovy
   pipeline {
@@ -496,18 +476,14 @@ For example, the first stage needs a Java agent, the second stage needs a Golang
 
 You can get global variables in Jenkins not only manually, but also using pipelines. Since pipelines use Groovy code, you can access information using global variables that are automatically accessible in Groovy.
 
-- **Access global variables documentation**
-
-  ```
-  JENKINS_URL/job/JOB_NAME/pipeline-syntax/globals
-  ```
+- **Documentation**: JENKINS_URL/job/JOB_NAME/pipeline-syntax/globals
 
 - **Common global variables**
 
   - **env** - Used to get global information from Jenkins
   - **currentBuild** - Used to get information about the currently running build job
-
-- **Global variable example**
+  
+- **Global Variable Example**
 
   ```groovy
   pipeline {
@@ -530,12 +506,12 @@ You can get global variables in Jenkins not only manually, but also using pipeli
 
 Pipelines also support adding environment variables.
 
-### Environment Variable Scope
+- **Environment Variable Scope**
 
-- If an environment variable is added to the pipeline, all stages can access its value
-- If an environment variable is added to a stage, it can only be accessed within that stage
+  - If an environment variable is added to the pipeline, all stages can access its value
+  - If an environment variable is added to a stage, it can only be accessed within that stage
 
-- **Environment variable example**
+- **Environment Variable Example**
 
   ```groovy
   pipeline {
