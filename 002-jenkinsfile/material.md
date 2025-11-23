@@ -548,16 +548,16 @@ Pipelines also support adding environment variables.
 
 In the environment section, there's a special command called `credentials()` that can be used to retrieve data from Jenkins credentials. This is more secure than having to type it manually in the Jenkinsfile.
 
-### Supported Credential Types
+- **Supported Credential Types**
 
-| Type | Behavior |
-|------|----------|
-| **Secret text** | Environment variable contains the secret text value |
-| **Secret file** | Environment variable contains the location of a temporary secret file (automatically deleted after pipeline completes) |
-| **Username and password** | Environment variable contains `username:password`, and automatically creates `VARNAME_USR` and `VARNAME_PSW` variables |
-| **SSH with private key** | Environment variable contains the location of a temporary SSH file. Also automatically creates `VARNAME_USR` and `VARNAME_PSW` (containing SSH passphrase) |
+  | Type | Behavior |
+  |------|----------|
+  | **Secret text** | Environment variable contains the secret text value |
+  | **Secret file** | Environment variable contains the location of a temporary secret file (automatically deleted after pipeline completes) |
+  | **Username and password** | Environment variable contains `username:password`, and automatically creates `VARNAME_USR` and `VARNAME_PSW` variables |
+  | **SSH with private key** | Environment variable contains the location of a temporary SSH file. Also automatically creates `VARNAME_USR` and `VARNAME_PSW` (containing SSH passphrase) |
 
-- **Credentials example**
+- **Credentials Example**
 
   ```groovy
   pipeline {
@@ -576,21 +576,21 @@ In the environment section, there's a special command called `credentials()` tha
   }
   ```
 
-### Sensitive Information Handling
+- **Sensitive Information Handling**
 
-The `${key}` syntax inside double quotes is Groovy String Interpolation and should not be used for sensitive data like credentials. To prevent sensitive information from being visible, use single quotes `''` and `$Key`.
-
-**Correct way for sensitive data:**
-
-```groovy
-sh('echo "Password: $APP_PSW" > "secret.txt"')
-```
-
-**Incorrect way (exposes data):**
-
-```groovy
-sh("echo 'Password: ${APP_PSW}' > 'secret.txt'")
-```
+  The `${key}` syntax inside double quotes is Groovy String Interpolation and should not be used for sensitive data like credentials. To prevent sensitive information from being visible, use single quotes `''` and `$Key`.
+  
+  **Correct way for sensitive data:**
+  
+  ```groovy
+  sh('echo "Password: $APP_PSW" > "secret.txt"')
+  ```
+  
+  **Incorrect way (exposes data):**
+  
+  ```groovy
+  sh("echo 'Password: ${APP_PSW}' > 'secret.txt'")
+  ```
 
 ---
 
@@ -598,16 +598,16 @@ sh("echo 'Password: ${APP_PSW}' > 'secret.txt'")
 
 Pipeline has an options command used for pipeline settings. Options can be at the pipeline level or stage level (like environment).
 
-**Documentation:** https://www.jenkins.io/doc/book/pipeline/syntax/#options
+- **Documentation:** https://www.jenkins.io/doc/book/pipeline/syntax/#options
 
-### Common Options
+- **Common Options**
 
-- `disableConcurrentBuilds()` - Prevents concurrent builds
-- `timeout(time: 10, unit: 'MINUTES')` - Sets pipeline timeout
-- `retry(3)` - Retries the stage on failure
-- `timestamps()` - Adds timestamps to console output
+  - `disableConcurrentBuilds()` - Prevents concurrent builds
+  - `timeout(time: 10, unit: 'MINUTES')` - Sets pipeline timeout
+  - `retry(3)` - Retries the stage on failure
+  - `timestamps()` - Adds timestamps to console output
 
-- **Options example**
+- **Options Example**
 
   ```groovy
   pipeline {
@@ -632,17 +632,17 @@ Pipeline has an options command used for pipeline settings. Options can be at th
 
 In pipelines, you can also add parameters using the `parameters` command. Parameters input by users will automatically be stored in global variables.
 
-### Parameter Types
+- **Parameter Types**
 
-| Type | Description |
-|------|-------------|
-| `string` | Text/string parameter type |
-| `text` | Similar to string but input is multiline text area |
-| `booleanParam` | Boolean parameter type (true/false) |
-| `choice` | String/text parameter with predefined options |
-| `password` | String parameter considered sensitive |
+  | Type | Description |
+  |------|-------------|
+  | `string` | Text/string parameter type |
+  | `text` | Similar to string but input is multiline text area |
+  | `booleanParam` | Boolean parameter type (true/false) |
+  | `choice` | String/text parameter with predefined options |
+  | `password` | String parameter considered sensitive |
 
-- **Parameters example**
+- **Parameters Example**
 
   ```groovy
   pipeline {
@@ -673,15 +673,15 @@ In pipelines, you can also add parameters using the `parameters` command. Parame
 
 A command used to run jobs automatically.
 
-### Trigger Types
+- **Trigger Types**
 
-| Type | Description |
-|------|-------------|
-| `cron` | Runs job automatically based on cron expression |
-| `pollSCM` | Uses cron expression to automatically check for SCM changes. If changes occur, job runs automatically |
-| `upstream` | Runs job after another job completes with a specific result |
+  | Type | Description |
+  |------|-------------|
+  | `cron` | Runs job automatically based on cron expression |
+  | `pollSCM` | Uses cron expression to automatically check for SCM changes. If changes occur, job runs automatically |
+  | `upstream` | Runs job after another job completes with a specific result |
 
-- **Trigger example**
+- **Trigger Example**
 
   ```groovy
   pipeline {
@@ -706,17 +706,17 @@ A command used to run jobs automatically.
 
 Input is similar to parameters. Input is a command added to a stage. When input is added to a stage, the stage won't run until the input is filled by the user.
 
-### Input Options
+- **Input Options**
 
-| Option | Description |
-|--------|-------------|
-| `id` | Input identifier, defaults to stage name |
-| `message` | Message displayed to user |
-| `ok` | Text for OK button |
-| `submitter` | Users allowed to input (comma-separated for multiple) |
-| `parameters` | Parameters that need to be input by user |
+  | Option | Description |
+  |--------|-------------|
+  | `id` | Input identifier, defaults to stage name |
+  | `message` | Message displayed to user |
+  | `ok` | Text for OK button |
+  | `submitter` | Users allowed to input (comma-separated for multiple) |
+  | `parameters` | Parameters that need to be input by user |
 
-- **Input example**
+- **Input Example**
 
   ```groovy
   pipeline {
@@ -745,16 +745,16 @@ Input is similar to parameters. Input is a command added to a stage. When input 
 
 A command used to determine under what conditions a stage is executed.
 
-**Documentation:** https://www.jenkins.io/doc/book/pipeline/syntax/#when
+- **Documentation:** https://www.jenkins.io/doc/book/pipeline/syntax/#when
 
-### Common When Conditions
+- **Common When Conditions**
 
-- `branch` - Execute when on specific branch
-- `expression` - Execute when expression returns true
-- `environment` - Execute when environment variable matches value
-- `equals` - Execute when values are equal
+  - `branch` - Execute when on specific branch
+  - `expression` - Execute when expression returns true
+  - `environment` - Execute when environment variable matches value
+  - `equals` - Execute when values are equal
 
-- **When example**
+- **When Example**
 
   ```groovy
   pipeline {
@@ -788,12 +788,12 @@ A command used to determine under what conditions a stage is executed.
 
 Stages can have stages within them. Stages inside execute sequentially by default.
 
-### Important Notes
+- **Important Notes**
 
-- Stages can only have one command: `steps`, `stages`, `parallel`, or `matrix`
-- If you add stages again, you can't combine it with steps
+  - Stages can only have one command: `steps`, `stages`, `parallel`, or `matrix`
+  - If you add stages again, you can't combine it with steps
 
-- **Sequential stages example**
+- **Sequential Stages Example**
 
   ```groovy
   pipeline {
@@ -831,13 +831,13 @@ Stages can have stages within them. Stages inside execute sequentially by defaul
 
 In certain cases, you want stages to run in parallel.
 
-### Key Points
+- **Key Points**
 
-- By default, parallel waits for all processes to complete, even if one stage has an error
-- To automatically stop all stage processes when one stage has an error, add `parallelAlwaysFailFast()` to options
-- When using parallel, you can't add an agent to the parent stage, so you need to specify it in each parallel stage
+  - By default, parallel waits for all processes to complete, even if one stage has an error
+  - To automatically stop all stage processes when one stage has an error, add `parallelAlwaysFailFast()` to options
+  - When using parallel, you can't add an agent to the parent stage, so you need to specify it in each parallel stage
 
-- **Parallel example**
+- **Parallel Example**
 
   ```groovy
   pipeline {
@@ -883,23 +883,23 @@ In certain cases, you want stages to run in parallel.
 
 Matrix is a feature that can be used to define a multi-dimensional matrix containing name-value combinations, executed in parallel.
 
-### Key Points
+- **Key Points**
 
-- Matrix is very powerful because it can run stages in parallel with predetermined matrix combinations
-- Since matrix runs in parallel, like parallel, you can also use the `failFast` or `parallelAlwaysFailFast()` option
+  - Matrix is very powerful because it can run stages in parallel with predetermined matrix combinations
+  - Since matrix runs in parallel, like parallel, you can also use the `failFast` or `parallelAlwaysFailFast()` option
 
-### Matrix Cell
+- **Matrix Cell**
 
-When creating axes in a matrix, stages will automatically be built using combinations of matrix axis values, called matrix cells.
+  When creating axes in a matrix, stages will automatically be built using combinations of matrix axis values, called matrix cells.
+  
+  For example, with two axes (OS and ARC), you'll get several combinations:
+  - linux 32, linux 64
+  - windows 32, windows 64
+  - mac 32, mac 64
+  
+  You can automatically retrieve axis data from environment variables in the stage.
 
-For example, with two axes (OS and ARC), you'll get several combinations:
-- linux 32, linux 64
-- windows 32, windows 64
-- mac 32, mac 64
-
-You can automatically retrieve axis data from environment variables in the stage.
-
-- **Matrix example**
+- **Matrix Example**
 
   ```groovy
   pipeline {
@@ -991,13 +991,9 @@ You can automatically retrieve axis data from environment variables in the stage
 
 Previously, we used the `credentials()` command to retrieve data from Jenkins credentials securely. But sometimes you only want to use credentials in a specific section and don't want to expose them to environment variables.
 
-You can use the Credentials Binding plugin.
+- **Documentation:** https://www.jenkins.io/doc/pipeline/steps/credentials-binding/
 
-**Plugin URL:** https://plugins.jenkins.io/credentials-binding/
-
-**Documentation:** https://www.jenkins.io/doc/pipeline/steps/credentials-binding/
-
-- **Credential binding example**
+- **Credential Binding Example**
 
   ```groovy
   pipeline {
@@ -1031,15 +1027,7 @@ You can use the Credentials Binding plugin.
 
 ## 🌿 Multi-Branch Pipeline
 
-Previously, we only created jobs from a Git repository with a predetermined branch. In reality, using only one branch isn't very useful - you want the job process to automatically run on all branches in the Git repository.
-
-Jenkins Pipeline has a multi-branch pipeline feature that can automatically detect branches in Git.
-
-### Benefits
-
-- If there's a new branch, no need to add a job manually
-- If a branch is deleted, no need to delete the job manually
-- Multi-branch pipeline can only create pipelines from Jenkinsfile, not directly in the job
+Previously, we only created jobs from a Git repository with a predetermined branch. In reality, using only one branch isn't very useful - you want the job process to automatically run on all branches in the Git repository. Jenkins Pipeline has a multi-branch pipeline feature that can automatically detect branches in Git.
 
 - **Create multi-branch pipeline**
 
@@ -1132,16 +1120,3 @@ Jenkins Pipeline has a multi-branch pipeline feature that can automatically dete
   - Check credentials are valid
   - Ensure branch specifier is correct
   - Check SCM polling schedule syntax
-
----
-
-## 📚 Additional Resources
-
-- **Jenkins Pipeline Documentation:** https://www.jenkins.io/doc/book/pipeline/
-- **Pipeline Syntax Reference:** https://www.jenkins.io/doc/book/pipeline/syntax/
-- **Pipeline Steps Reference:** https://www.jenkins.io/doc/pipeline/steps/
-- **Groovy Documentation:** https://groovy-lang.org/documentation.html
-
----
-
-**Note:** This guide covers Jenkins Pipeline fundamentals. For advanced topics like shared libraries, custom DSL, and complex orchestration, refer to the official Jenkins documentation.
