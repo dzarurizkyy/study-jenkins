@@ -25,8 +25,6 @@ A comprehensive guide for creating and using Jenkins Shared Libraries to central
 
 Jenkins Shared Library is a feature in Jenkins Pipeline that allows you to store pipeline code in a separate repository from the projects that use it.
 
-When you install Jenkins Pipeline, the Shared Library feature is automatically available.
-
 ---
 
 ## ✨ Why Use Shared Library
@@ -58,10 +56,10 @@ When you install Jenkins Pipeline, the Shared Library feature is automatically a
 
 Creating a Jenkins Shared Library is straightforward:
 
-1. Create a folder with the required structure
-2. Add Groovy code files following the defined structure
-3. Store the folder in a Git repository
-4. Jenkins will use Git to access and utilize the shared library
+- Create a folder with the required structure
+- Add Groovy code files following the defined structure
+- Store the folder in a Git repository
+- Jenkins will use Git to access and utilize the shared library
 
 ---
 
@@ -77,7 +75,7 @@ jenkins-shared-library/
 └── vars/              # Global variable Groovy files
 ```
 
-### Directory Descriptions
+**Directory Descriptions**
 
 - **resources/** - Contains non-code files like text, JSON, images, and other assets
 - **src/** - Contains Groovy class files organized in package structure
@@ -89,42 +87,42 @@ jenkins-shared-library/
 
 Before using a shared library, you must register it in Jenkins:
 
-1. **Login to Jenkins**
+- **Login to Jenkins**
    
    Access your Jenkins instance
 
-2. **Navigate to Manage Jenkins**
+- **Navigate to Manage Jenkins**
    
    Click on **Manage Jenkins** from the dashboard
 
-3. **Open System Configuration**
+- **Open System Configuration**
    
    Select **Configure System**
 
-4. **Locate Pipeline Libraries**
+- **Locate Pipeline Libraries**
    
    Scroll down to **Global Trusted Pipeline Libraries** section
 
-5. **Add New Library**
+- **Add New Library**
    
    Click **Add** button
 
-6. **Configure Library Settings**
+- **Configure Library Settings**
    
    - **Name:** Enter library name (should match repository name - best practice)
    - **Default version:** Specify branch/tag (e.g., `main`)
 
-7. **Set Retrieval Method**
+- **Set Retrieval Method**
    
    - Select **Modern SCM** as retrieval method
 
-8. **Configure Source Control**
+- **Configure Source Control**
    
    - Select **Git** as Source Code Management
    - **Project Repository:** Enter Git repository URL
    - **Credentials:** Select or add GitHub credentials
 
-9. **Save Configuration**
+- **Save Configuration**
    
    Click **Save** to complete registration
 
@@ -136,42 +134,42 @@ Before using a shared library, you must register it in Jenkins:
 
 Jenkins Shared Library requires the Groovy Pipeline Plugin, which is installed by default with Jenkins Pipeline.
 
-**Plugin Information:** https://plugins.jenkins.io/pipeline-groovy-lib/
+- **Plugin Information:** https://plugins.jenkins.io/pipeline-groovy-lib/
 
-### @Library Annotation
+- **@Library Annotation**
 
-Use the `@Library` annotation to import your shared library:
+   Use the `@Library` annotation to import your shared library:
+   
+   **Syntax:**
+   
+   ```groovy
+   @Library("library-name")
+   @Library("library-name@tag")
+   @Library("library-name@branch")
+   ```
 
-**Syntax:**
+  **Examples:**
 
-```groovy
-@Library("library-name")
-@Library("library-name@tag")
-@Library("library-name@branch")
-```
+   ```groovy
+   // Use default version
+   @Library('jenkins-shared-library')
+   
+   // Use specific branch
+   @Library('jenkins-shared-library@main')
+   
+   // Use specific tag
+   @Library('jenkins-shared-library@v1.0.0')
+   ```
 
-**Examples:**
+- **Auto-Import vars Files**
 
-```groovy
-// Use default version
-@Library('jenkins-shared-library')
-
-// Use specific branch
-@Library('jenkins-shared-library@main')
-
-// Use specific tag
-@Library('jenkins-shared-library@v1.0.0')
-```
-
-### Auto-Import vars Files
-
-Add an underscore `_` after `@Library` to automatically import all files from the `vars` folder:
-
-```groovy
-@Library('jenkins-shared-library@main') _
-```
-
-This makes all files in `vars/` available as global variables without explicit imports.
+   Add an underscore `_` after `@Library` to automatically import all files from the `vars` folder:
+   
+   ```groovy
+   @Library('jenkins-shared-library@main') _
+   ```
+   
+   This makes all files in `vars/` available as global variables without explicit imports.
 
 ---
 
@@ -179,207 +177,210 @@ This makes all files in `vars/` available as global variables without explicit i
 
 Files in the `vars/` folder automatically become global variables accessible in your Jenkinsfile.
 
-### How It Works
+- **How It Works**
 
-- **File name = Variable name**
-  - `author.groovy` → `author` variable
-  - `hello.groovy` → `hello` variable
-- All functions, variables, and classes in the file are accessible through the global variable
+   - **File name = Variable name**
+   
+     `author.groovy` → `author` variable
+     
+     `hello.groovy` → `hello` variable
+     
+   - All functions, variables, and classes in the file are accessible through the global variable
 
-### Defining Functions
+- **Defining Functions**
 
-**vars/hello.groovy**
+   `vars/hello.groovy`
+   
+   ```groovy
+   def world() {
+     echo("Hello World")
+   }
+   ```
 
-```groovy
-def world() {
-  echo("Hello World")
-}
-```
+   
+   `Jenkinsfile Usage`
+   
+   ```groovy
+   @Library('jenkins-shared-library@main') _
+   
+   pipeline {
+     agent any
+     stages {
+       stage("Hello World") {
+         steps {
+           script {
+             hello.world()
+           }
+         }
+       }
+     }
+   }
+   ```
 
-**Jenkinsfile Usage**
+- **Multiple Functions**
 
-```groovy
-@Library('jenkins-shared-library@main') _
+   `vars/author.groovy`
+   
+   ```groovy
+   def name() {
+     "Dzaru Rizky Fathan Fortuna"
+   }
+   
+   def channel() {
+     "dzarurizky"
+   }
+   ```
 
-pipeline {
-  agent any
-  stages {
-    stage("Hello World") {
-      steps {
-        script {
-          hello.world()
-        }
-      }
-    }
-  }
-}
-```
+   
+   `Jenkinsfile Usage`
+   
+   ```groovy
+   @Library('jenkins-shared-library@main') _
+   
+   pipeline {
+     agent any
+     stages {
+       stage("Author Info") {
+         steps {
+           script {
+             echo(author.name())
+             echo(author.channel())
+           }
+         }
+       }
+     }
+   }
+   ```
 
-### Multiple Functions
+- **Default Function (call)**
 
-**vars/author.groovy**
+   The `call()` function is invoked when you use the global variable as a function:
 
-```groovy
-def name() {
-  "Dzaru Rizky Fathan Fortuna"
-}
+   `vars/author.groovy`
+   
+   ```groovy
+   def call() {
+     "Junior Full Stack Developer"
+   }
+   
+   def name() {
+     "Dzaru Rizky Fathan Fortuna"
+   }
+   
+   def channel() {
+     "dzarurizky"
+   }
+   ```
 
-def channel() {
-  "dzarurizky"
-}
-```
-
-**Jenkinsfile Usage**
-
-```groovy
-@Library('jenkins-shared-library@main') _
-
-pipeline {
-  agent any
-  stages {
-    stage("Author Info") {
-      steps {
-        script {
-          echo(author.name())
-          echo(author.channel())
-        }
-      }
-    }
-  }
-}
-```
-
-### Default Function (call)
-
-The `call()` function is invoked when you use the global variable as a function:
-
-**vars/author.groovy**
-
-```groovy
-def call() {
-  "Junior Full Stack Developer"
-}
-
-def name() {
-  "Dzaru Rizky Fathan Fortuna"
-}
-
-def channel() {
-  "dzarurizky"
-}
-```
-
-**Jenkinsfile Usage**
-
-```groovy
-@Library('jenkins-shared-library@main') _
-
-pipeline {
-  agent any
-  stages {
-    stage("Author Info") {
-      steps {
-        script {
-          echo(author())           // Calls call() function
-          echo(author.name())
-          echo(author.channel())
-        }
-      }
-    }
-  }
-}
-```
-
+   
+   `Jenkinsfile Usage`
+   
+   ```groovy
+   @Library('jenkins-shared-library@main') _
+   
+   pipeline {
+     agent any
+     stages {
+       stage("Author Info") {
+         steps {
+           script {
+             echo(author())           // Calls call() function
+             echo(author.name())
+             echo(author.channel())
+           }
+         }
+       }
+     }
+   }
+   ```
 ---
 
 ## 🎓 Groovy Classes
 
 You can create Groovy classes in the `src/` directory for more structured code.
 
-### Creating Groovy Classes
+- **Creating Groovy Classes**
 
-**src/dzarurizkyy/jenkins/Output.groovy**
+   `src/dzarurizkyy/jenkins/Output.groovy`
+   
+   ```groovy
+   package dzarurizkyy.jenkins
+   
+   class Output {
+     static def hello(String name) {
+       println("Hello ${name}")
+     }
+   }
+   ```
 
-```groovy
-package dzarurizkyy.jenkins
+   `Jenkinsfile`
+   
+   ```groovy
+   @Library('jenkins-shared-library@main') _
+   
+   import dzarurizkyy.jenkins.Output
+   
+   pipeline {
+     agent any
+     stages {
+       stage("Login") {
+         steps {
+           script {
+             Output.hello("Dzaru Rizky")
+           }
+         }
+       }
+     }
+   }
+   ```
 
-class Output {
-  static def hello(String name) {
-    println("Hello ${name}")
-  }
-}
-```
+- **Groovy vs Jenkins Pipeline**
 
-### Using Groovy Classes
+   - **Jenkins Pipeline:** Use `echo()` function
+   - **Groovy:** Use `println()` function
 
-**Jenkinsfile**
+- **Accessing Jenkins Pipeline Steps in Classes**
 
-```groovy
-@Library('jenkins-shared-library@main') _
+   To use Jenkins Pipeline steps in Groovy classes, pass the `steps` object:
+   
+   `src/dzarurizkyy/jenkins/Output.groovy`
+   
+   ```groovy
+   package dzarurizkyy.jenkins
+   
+   class Output {
+     static def hello(steps, String name) {
+       steps.echo("Hello ${name}")
+     }
+   }
+   ```
+   
+   `Jenkinsfile Usage`
+   
+   ```groovy
+   @Library('jenkins-shared-library@main') _
+   
+   import dzarurizkyy.jenkins.Output
+   
+   pipeline {
+     agent any
+     stages {
+       stage("Login") {
+         steps {
+           script {
+             Output.hello(this, "Dzaru Rizky")
+           }
+         }
+       }
+     }
+   }
+   ```
 
-import dzarurizkyy.jenkins.Output
+- **Why Use Global Variables Over Classes?**
 
-pipeline {
-  agent any
-  stages {
-    stage("Login") {
-      steps {
-        script {
-          Output.hello("Dzaru Rizky")
-        }
-      }
-    }
-  }
-}
-```
-
-### Groovy vs Jenkins Pipeline
-
-- **Jenkins Pipeline:** Use `echo()` function
-- **Groovy:** Use `println()` function
-
-### Accessing Jenkins Pipeline Steps in Classes
-
-To use Jenkins Pipeline steps in Groovy classes, pass the `steps` object:
-
-**src/dzarurizkyy/jenkins/Output.groovy**
-
-```groovy
-package dzarurizkyy.jenkins
-
-class Output {
-  static def hello(steps, String name) {
-    steps.echo("Hello ${name}")
-  }
-}
-```
-
-**Jenkinsfile Usage**
-
-```groovy
-@Library('jenkins-shared-library@main') _
-
-import dzarurizkyy.jenkins.Output
-
-pipeline {
-  agent any
-  stages {
-    stage("Login") {
-      steps {
-        script {
-          Output.hello(this, "Dzaru Rizky")
-        }
-      }
-    }
-  }
-}
-```
-
-### Why Use Global Variables Over Classes?
-
-Global variables in `vars/` can directly access Jenkins Pipeline Library functions, making them more convenient for pipeline-related scripts.
-
-**Recommendation:** Use global variables (`vars/`) when you need Jenkins Pipeline Library features.
+   Global variables in `vars/` can directly access Jenkins Pipeline Library functions, making them more convenient for pipeline-related scripts.
+   
+   **Recommendation:** Use global variables (`vars/`) when you need Jenkins Pipeline Library features.
 
 ---
 
@@ -387,101 +388,101 @@ Global variables in `vars/` can directly access Jenkins Pipeline Library functio
 
 Functions in shared libraries can accept parameters just like standard Groovy functions.
 
-### String Parameters
+- **String Parameters**
 
-**vars/command.groovy**
+   `vars/command.groovy`
+   
+   ```groovy
+   def call(String command) {
+     sh("echo 'this is ${command}' > command.txt")
+   }
+   ```
+   
+   `Jenkinsfile Usage`
+   
+   ```groovy
+   @Library('jenkins-shared-library@main') _
+   
+   pipeline {
+     agent any
+     stages {
+       stage("Parameter") {
+         steps {
+           script {
+             command("function call")
+           }
+         }
+       }
+     }
+   }
+   ```
 
-```groovy
-def call(String command) {
-  sh("echo 'this is ${command}' > command.txt")
-}
-```
+- **List Parameters**
 
-**Jenkinsfile Usage**
+   Use List parameters for variable-length arguments:
+   
+   `vars/command.groovy`
+   
+   ```groovy
+   def call(List commands) {
+     for (command in commands) {
+       sh("echo ${command}")
+     }
+   }
+   ```
+   
+   `Jenkinsfile Usage`
+   
+   ```groovy
+   @Library('jenkins-shared-library@main') _
+   
+   pipeline {
+     agent any
+     stages {
+       stage("Parameter") {
+         steps {
+           script {
+             command(["Test 1", "Test 2", "Test 3"])
+           }
+         }
+       }
+     }
+   }
+   ```
 
-```groovy
-@Library('jenkins-shared-library@main') _
+- **Map Parameters**
 
-pipeline {
-  agent any
-  stages {
-    stage("Parameter") {
-      steps {
-        script {
-          command("function call")
-        }
-      }
-    }
-  }
-}
-```
-
-### List Parameters
-
-Use List parameters for variable-length arguments:
-
-**vars/command.groovy**
-
-```groovy
-def call(List commands) {
-  for (command in commands) {
-    sh("echo ${command}")
-  }
-}
-```
-
-**Jenkinsfile Usage**
-
-```groovy
-@Library('jenkins-shared-library@main') _
-
-pipeline {
-  agent any
-  stages {
-    stage("Parameter") {
-      steps {
-        script {
-          command(["Test 1", "Test 2", "Test 3"])
-        }
-      }
-    }
-  }
-}
-```
-
-### Map Parameters
-
-Map parameters are ideal for complex, key-value data:
-
-**vars/hello.groovy**
-
-```groovy
-def person(Map person) {
-  echo("Hello ${person.firstName} ${person.lastName}")
-}
-```
-
-**Jenkinsfile Usage**
-
-```groovy
-@Library('jenkins-shared-library@main') _
-
-pipeline {
-  agent any
-  stages {
-    stage("Parameter") {
-      steps {
-        script {
-          hello.person([
-            "firstName": "Rakuro",
-            "lastName": "Hizutome"
-          ])
-        }
-      }
-    }
-  }
-}
-```
+   Map parameters are ideal for complex, key-value data:
+   
+   `vars/hello.groovy`
+   
+   ```groovy
+   def person(Map person) {
+     echo("Hello ${person.firstName} ${person.lastName}")
+   }
+   ```
+   
+   `Jenkinsfile Usage`
+   
+   ```groovy
+   @Library('jenkins-shared-library@main') _
+   
+   pipeline {
+     agent any
+     stages {
+       stage("Parameter") {
+         steps {
+           script {
+             hello.person([
+               "firstName": "Rakuro",
+               "lastName": "Hizutome"
+             ])
+           }
+         }
+       }
+     }
+   }
+   ```
 
 ---
 
@@ -489,57 +490,57 @@ pipeline {
 
 The `resources/` folder stores non-code files like text, JSON, images, and other assets.
 
-### Accessing Resources
+- **Accessing Resources**
 
-Use the `libraryResource(location)` function to retrieve files from the resources folder:
+   Use the `libraryResource(location)` function to retrieve files from the resources folder:
 
-**Syntax:**
-
-```groovy
-libraryResource("path/to/file")
-```
-
-The function returns the file content as text.
-
-### Example
-
-**resources/config/build.json**
-
-```json
-{
-  "app": "Jenkins Shared Library",
-  "author": "Dzaru Rizky Fathan Fortuna"
-}
-```
-
-**Jenkinsfile Usage**
-
-```groovy
-@Library('jenkins-shared-library@main') _
-
-pipeline {
-  agent any
-  stages {
-    stage("Library Resource") {
-      steps {
-        script {
-          def config = libraryResource("config/build.json")
-          echo(config)
+   - **Syntax:**
+   
+      ```groovy
+      libraryResource("path/to/file")
+      ```
+   
+      The function returns the file content as text.
+   
+   - **Example**
+   
+      `resources/config/build.json`
+      
+      ```json
+      {
+        "app": "Jenkins Shared Library",
+        "author": "Dzaru Rizky Fathan Fortuna"
+      }
+      ```
+   
+      `Jenkinsfile Usage`
+      
+      ```groovy
+      @Library('jenkins-shared-library@main') _
+      
+      pipeline {
+        agent any
+        stages {
+          stage("Library Resource") {
+            steps {
+              script {
+                def config = libraryResource("config/build.json")
+                echo(config)
+              }
+            }
+          }
         }
       }
-    }
-  }
-}
-```
-
-**Output:**
-
-```
-{
-  "app": "Jenkins Shared Library",
-  "author": "Dzaru Rizky Fathan Fortuna"
-}
-```
+      ```
+   
+      `Output:`
+      
+      ```
+      {
+        "app": "Jenkins Shared Library",
+        "author": "Dzaru Rizky Fathan Fortuna"
+      }
+      ```
 
 ---
 
@@ -547,126 +548,126 @@ pipeline {
 
 Shared libraries support creating complete declarative pipelines, simplifying Jenkinsfiles significantly.
 
-### Basic Example
+- **Basic Example**
 
-**vars/declarative.groovy**
+   `vars/declarative.groovy`
+   
+   ```groovy
+   def call(Map setup) {
+     pipeline {
+       agent any
+       stages {
+         stage("Parameter") {
+           steps {
+             script {
+               hello.person([
+                 "firstName": "Rakuro",
+                 "lastName": "Hizutome"
+               ])
+               command(["Test 1", "Test 2", "Test 3"])
+             }
+           }
+         }
+         stage("Library Resource") {
+           steps {
+             script {
+               def config = libraryResource("config/build.json")
+               echo(config)
+             }
+           }
+         }
+         stage("Hello World") {
+           steps {
+             script {
+               echo(author())
+               echo(author.name())
+               echo(author.channel())
+             }
+           }
+         }
+       }
+     }
+   }
+   ```
 
-```groovy
-def call(Map setup) {
-  pipeline {
-    agent any
-    stages {
-      stage("Parameter") {
-        steps {
-          script {
-            hello.person([
-              "firstName": "Rakuro",
-              "lastName": "Hizutome"
-            ])
-            command(["Test 1", "Test 2", "Test 3"])
-          }
-        }
-      }
-      stage("Library Resource") {
-        steps {
-          script {
-            def config = libraryResource("config/build.json")
-            echo(config)
-          }
-        }
-      }
-      stage("Hello World") {
-        steps {
-          script {
-            echo(author())
-            echo(author.name())
-            echo(author.channel())
-          }
-        }
-      }
-    }
-  }
-}
-```
+  `Jenkinsfile Usage`
 
-**Jenkinsfile Usage**
+   ```groovy
+   @Library('jenkins-shared-library@main') _
+   
+   declarative([:])
+   ```
 
-```groovy
-@Library('jenkins-shared-library@main') _
+- **Conditional Pipelines**
 
-declarative([:])
-```
-
-### Conditional Pipelines
-
-Add logic to declarative pipelines using conditions:
-
-**vars/declarative.groovy**
-
-```groovy
-def call(Map setup) {
-  if (setup.type == "start") {
-    pipeline {
-      agent any
-      stages {
-        stage("Parameter") {
-          steps {
-            script {
-              hello.person([
-                "firstName": "Rakuro",
-                "lastName": "Hizutome"
-              ])
-              command(["Test 1", "Test 2", "Test 3"])
-            }
-          }
-        }
-        stage("Library Resource") {
-          steps {
-            script {
-              def config = libraryResource("config/build.json")
-              echo(config)
-            }
-          }
-        }
-        stage("Hello World") {
-          steps {
-            script {
-              echo(author())
-              echo(author.name())
-              echo(author.channel())
-            }
-          }
-        }
-      }
-    }
-  } else {
-    pipeline {
-      agent any
-      stages {
-        stage("Unsupported type") {
-          steps {
-            script {
-              echo("Unsupported type")
-            }
-          }
-        }
-      }
-    }
-  }
-}
-```
-
-**Jenkinsfile Usage**
-
-```groovy
-@Library('jenkins-shared-library@main') _
-
-// Use "start" type
-declarative([type: "start"])
-
-// Or use different type
-declarative([type: "stop"])
-```
+  Add logic to declarative pipelines using conditions:
+   
+   `vars/declarative.groovy`
+   
+   ```groovy
+   def call(Map setup) {
+     if (setup.type == "start") {
+       pipeline {
+         agent any
+         stages {
+           stage("Parameter") {
+             steps {
+               script {
+                 hello.person([
+                   "firstName": "Rakuro",
+                   "lastName": "Hizutome"
+                 ])
+                 command(["Test 1", "Test 2", "Test 3"])
+               }
+             }
+           }
+           stage("Library Resource") {
+             steps {
+               script {
+                 def config = libraryResource("config/build.json")
+                 echo(config)
+               }
+             }
+           }
+           stage("Hello World") {
+             steps {
+               script {
+                 echo(author())
+                 echo(author.name())
+                 echo(author.channel())
+               }
+             }
+           }
+         }
+       }
+     } else {
+       pipeline {
+         agent any
+         stages {
+           stage("Unsupported type") {
+             steps {
+               script {
+                 echo("Unsupported type")
+               }
+             }
+           }
+         }
+       }
+     }
+   }
+   ```
+   
+   `Jenkinsfile Usage`
+   
+   ```groovy
+   @Library('jenkins-shared-library@main') _
+   
+   // Use "start" type
+   declarative([type: "start"])
+   
+   // Or use different type
+   declarative([type: "stop"])
+   ```
 
 ---
 
@@ -750,26 +751,3 @@ jenkins-shared-library/
 - Verify Jenkins has read access to Git repository
 - Check credentials are properly configured
 - Ensure branch/tag exists in repository
-
----
-
-## 📚 Additional Resources
-
-- [Jenkins Pipeline Documentation](https://www.jenkins.io/doc/book/pipeline/)
-- [Groovy Language Documentation](https://groovy-lang.org/documentation.html)
-- [Jenkins Shared Libraries Official Guide](https://www.jenkins.io/doc/book/pipeline/shared-libraries/)
-- [Groovy Pipeline Plugin](https://plugins.jenkins.io/pipeline-groovy-lib/)
-
----
-
-## ✅ Summary
-
-Jenkins Shared Library provides a powerful way to:
-
-- Centralize pipeline code across multiple projects
-- Reduce code duplication and maintenance overhead
-- Standardize build and deployment processes
-- Create reusable, modular pipeline components
-- Improve team collaboration and consistency
-
-By following this guide, you can create, register, and use shared libraries effectively in your Jenkins environment.
