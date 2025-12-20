@@ -164,9 +164,6 @@ This repository contains comprehensive guides for Jenkins installation, configur
   - Library resources for non-code files
   - Declarative pipelines in shared libraries
   - Conditional pipeline logic
-  - Best practices and naming conventions
-  - Version control and semantic versioning
-  - Testing and troubleshooting
 
 ## 📍 References
 - [Udemy](https://www.udemy.com/course/jenkins-pemula-sampai-mahir)
