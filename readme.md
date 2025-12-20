@@ -12,7 +12,7 @@ This repository contains comprehensive guides for Jenkins installation, configur
   - **Sufficient server resources** (minimum 256 MB RAM, 1 GB storage)
   - **SSH access** to your server/VPS
 
-- **Option 1: Using WAR File (Recommended for Learning)**
+- **Installation**
 
   `Download Jenkins:`
   ```bash
@@ -32,43 +32,6 @@ This repository contains comprehensive guides for Jenkins installation, configur
   `Unlock Jenkins:`
   ```bash
   cat /root/.jenkins/secrets/initialAdminPassword
-  ```
-
-- **Option 2: Using Package Manager**
-
-  `Ubuntu/Debian:`
-  ```bash
-  sudo apt update
-  sudo apt install openjdk-17-jdk -y
-  wget -q -O - https://pkg.jenkins.io/debian-stable/jenkins.io.key | sudo apt-key add -
-  sudo sh -c 'echo deb https://pkg.jenkins.io/debian-stable binary/ > /etc/apt/sources.list.d/jenkins.list'
-  sudo apt update
-  sudo apt install jenkins
-  sudo systemctl start jenkins
-  ```
-  
-  `macOS (Homebrew):`
-  ```bash
-  brew install jenkins-lts
-  brew services start jenkins-lts
-  ```
-  
-- **Option 3: Using Docker**
-  ```bash
-  docker pull jenkins/jenkins:lts
-  docker run -d -p 8080:8080 -p 50000:50000 --name jenkins jenkins/jenkins:lts
-  ```
-  
-  `Verify Installation:`
-  ```bash
-  # Check Java version
-  java --version
-  
-  # Check Jenkins is running
-  ps aux | grep jenkins
-  
-  # Access Jenkins web interface
-  # Navigate to: http://localhost:8080
   ```
 
 ## List of Material 📚
